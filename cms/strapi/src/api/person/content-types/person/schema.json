@@ -1,0 +1,75 @@
+{
+  "kind": "collectionType",
+  "collectionName": "people",
+  "info": {
+    "singularName": "person",
+    "pluralName": "people",
+    "displayName": "Person"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "NamePrefix": {
+      "type": "string"
+    },
+    "FirstAndMiddleName": {
+      "type": "string"
+    },
+    "LastName": {
+      "type": "string"
+    },
+    "NameSuffix": {
+      "type": "string"
+    },
+    "Title": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "required": false
+    },
+    "Bio": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      }
+    },
+    "Email": {
+      "type": "email"
+    },
+    "Photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "GeneratedDisplayName": {
+      "type": "string"
+    },
+    "Pages": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::page.page",
+      "mappedBy": "People"
+    },
+    "PageParts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::page-part.page-part",
+      "mappedBy": "People"
+    },
+    "InternalNote": {
+      "type": "blocks",
+      "private": true
+    },
+    "InternalNotes": {
+      "type": "text",
+      "private": true
+    }
+  }
+}

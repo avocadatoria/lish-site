@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "text_snippets",
+  "info": {
+    "singularName": "text-snippet",
+    "pluralName": "text-snippets",
+    "displayName": "TextSnippet"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Key": {
+      "type": "string",
+      "required": true
+    },
+    "Value": {
+      "type": "text"
+    },
+    "InternalNotes": {
+      "type": "text",
+      "private": true
+    }
+  }
+}

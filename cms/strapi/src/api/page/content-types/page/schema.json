@@ -1,0 +1,90 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
+    "description": "Generic CMS-managed pages"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "NavbarLabel": {
+      "type": "string",
+      "required": false,
+      "unique": false
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": false
+    },
+    "Tagline": {
+      "type": "string"
+    },
+    "FeaturedImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Content": {
+      "type": "customField",
+      "customField": "plugin::ckeditor5.CKEditor",
+      "options": {
+        "preset": "defaultHtml"
+      },
+      "required": false
+    },
+    "SEOTitleOverride": {
+      "type": "string"
+    },
+    "SEODescription": {
+      "type": "string",
+      "maxLength": 160
+    },
+    "HideInNav": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "IsSectionRoot": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "Sections": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::site-section.site-section",
+      "inversedBy": "Pages"
+    },
+    "PageParts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::page-part.page-part",
+      "mappedBy": "Page"
+    },
+    "People": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::person.person",
+      "inversedBy": "Pages"
+    },
+    "InternalNotes": {
+      "type": "text",
+      "private": true
+    }
+  }
+}

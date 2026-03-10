@@ -1,0 +1,168 @@
+// ─────────────────────────────────────────────
+// Termly consent banner & preferences overrides
+// All rules need !important to beat inline styles
+// ─────────────────────────────────────────────
+
+// Shared button mixin matching our MUI buttons
+@mixin termly-button-base {
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  border-radius: 4px !important;
+  padding: 6px 16px !important;
+  line-height: 1.75 !important;
+  letter-spacing: 0 !important;
+  cursor: pointer;
+  transition: none !important;
+}
+
+@mixin termly-solid-button {
+  @include termly-button-base;
+  background: #556B2F !important;
+  border-color: #556B2F !important;
+  color: #fff !important;
+
+  &:hover {
+    background: #465923 !important;
+    border-color: #465923 !important;
+  }
+}
+
+@mixin termly-outlined-button {
+  @include termly-button-base;
+  background: transparent !important;
+  border: 1px solid rgba(85, 107, 47, 0.5) !important;
+  color: #556B2F !important;
+
+  &:hover {
+    background: rgba(85, 107, 47, 0.04) !important;
+    border-color: #556B2F !important;
+  }
+}
+
+// ── Consent banner ──────────────────────────
+
+[aria-label="Cookie Consent Prompt"] {
+  font-family: var(--font-body), sans-serif !important;
+  font-size: 0.875rem !important;
+  border-top: 1px solid var(--color-gray-300) !important;
+  box-shadow: var(--shadow-lg) !important;
+
+  // Message text
+  [class*="message"] {
+    font-family: var(--font-body), sans-serif !important;
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
+  }
+
+  // Inline links (Cookie Policy, Preferences)
+  [class*="root-d5f974"] {
+    color: #556B2F !important;
+    font-family: var(--font-body), sans-serif !important;
+    font-size: 0.875rem !important;
+  }
+
+  // Button bar background
+  [class*="buttons"] {
+    background: inherit !important;
+  }
+
+  // Accept & Decline — solid
+  .t-acceptAllButton,
+  .t-declineButton {
+    @include termly-solid-button;
+  }
+
+  // Preferences — outlined
+  .t-preference-button {
+    @include termly-outlined-button;
+  }
+}
+
+// ── Shared Termly modal styles ──────────────
+// Both "Cookie Consent Preferences" and "Cookie Details" use
+// the same modal class but different aria-labels.
+
+@mixin termly-modal {
+  font-family: var(--font-body), sans-serif !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-xl) !important;
+
+  // All h2 — Instrument Serif
+  h2 {
+    font-family: var(--font-heading), serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 400 !important;
+  }
+
+  // All h3 (provider subheadings) — body font
+  h3 {
+    font-family: var(--font-body), sans-serif !important;
+  }
+
+  // Description text & body text
+  [class*="description"],
+  [class*="body-f"] {
+    font-family: var(--font-body), sans-serif !important;
+    font-size: 0.875rem !important;
+    line-height: 1.6 !important;
+  }
+
+  // Accordion headers
+  [class*="head-e"] {
+    font-family: var(--font-body), sans-serif !important;
+  }
+
+  // Inline links (Cookie Policy, Privacy Policy, Details)
+  [class*="root-d5f974"] {
+    color: #556B2F !important;
+    font-family: var(--font-body), sans-serif !important;
+    font-size: 0.875rem !important;
+  }
+
+  // Checkbox labels
+  [class*="label-b"] {
+    font-family: var(--font-body), sans-serif !important;
+  }
+
+  // Checked checkbox color
+  [class*="checked"] {
+    background-color: #556B2F !important;
+    border-color: #556B2F !important;
+  }
+
+  // Table cells & headers
+  th, td {
+    font-family: var(--font-body), sans-serif !important;
+  }
+
+  // Solid buttons
+  .t-allowAllButton,
+  .t-declineAllButton,
+  .t-saveButton,
+  .t-discardButton {
+    @include termly-solid-button;
+  }
+
+  // Outlined buttons
+  .t-backButton {
+    @include termly-outlined-button;
+
+    svg path {
+      fill: #556B2F !important;
+    }
+  }
+}
+
+// ── Preferences modal ───────────────────────
+
+[aria-label="Cookie Consent Preferences"] {
+  @include termly-modal;
+}
+
+// ── Cookie Details modal ────────────────────
+
+[aria-label="Cookie Details"] {
+  @include termly-modal;
+}

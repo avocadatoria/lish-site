@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "locations",
+  "info": {
+    "singularName": "location",
+    "pluralName": "locations",
+    "displayName": "Location"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Label": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "AddressPhoneInfo": {
+      "type": "text",
+      "required": true
+    },
+    "Hours": {
+      "type": "text"
+    },
+    "Services": {
+      "type": "text"
+    },
+    "MapIframeSrc": {
+      "type": "string"
+    },
+    "MapIframeLabel": {
+      "type": "string"
+    },
+    "InternalNotes": {
+      "type": "text",
+      "private": true
+    }
+  }
+}

@@ -1,0 +1,76 @@
+import { setPluginConfig, defaultHtmlPreset } from '@_sh/strapi-plugin-ckeditor';
+
+// ── Toolbar tweaks ──────────────────────────────────────────
+// Remove unwanted toolbar items
+const removeFromToolbar = ['fontFamily', 'fontSize', 'pageBreak', 'codeBlock', 'todoList'];
+defaultHtmlPreset.editorConfig.toolbar = defaultHtmlPreset.editorConfig.toolbar.filter(
+  (item) => !removeFromToolbar.includes(item)
+);
+
+// Add bold, italic, strikethrough if not already present
+for (const item of ['bold', 'italic', 'strikethrough']) {
+  if (!defaultHtmlPreset.editorConfig.toolbar.includes(item)) {
+    defaultHtmlPreset.editorConfig.toolbar.unshift(item);
+  }
+}
+
+delete defaultHtmlPreset.editorConfig.fontFamily;
+
+// ── Image styles: remove "side" and "inline" ────────────────
+defaultHtmlPreset.editorConfig.image.styles.options =
+  defaultHtmlPreset.editorConfig.image.styles.options.filter((opt) => {
+    const name = typeof opt === 'string' ? opt : opt.name;
+    return name !== 'side' && name !== 'inline';
+  });
+
+// ── Alignment: default left, no justify ─────────────────────
+defaultHtmlPreset.editorConfig.alignment = {
+  options: ['left', 'center', 'right'],
+};
+
+// ── Headings: 1–4 only ──────────────────────────────────────
+defaultHtmlPreset.editorConfig.heading.options =
+  defaultHtmlPreset.editorConfig.heading.options.filter(
+    (opt) => opt.model !== 'heading5' && opt.model !== 'heading6'
+  );
+
+// ── Paste/drag: strip everything except structural formatting ─
+// Allowed on paste: headings, bold, italic, strikethrough, alignment,
+// indentation, lists, links, blockquotes, tables, raw HTML.
+// Stripped on paste: images, media, inline styles, classes, font styles,
+// colors, backgrounds — anything not controllable via the toolbar.
+defaultHtmlPreset.editorConfig.htmlSupport = {
+  disallow: [
+    {
+      name: /./,
+      styles: true,
+      classes: true,
+    },
+  ],
+};
+
+// Block image/media paste and drag
+defaultHtmlPreset.editorConfig.removePlugins = [
+  ...(defaultHtmlPreset.editorConfig.removePlugins || []),
+  'ImageUploadViaUrl', 'AutoImage',
+];
+defaultHtmlPreset.editorConfig.pasteFromOffice = {
+  keepOriginalStyling: false,
+};
+
+const config = {
+  locales: [],
+  translations: {
+    en: {
+      'Auth.form.welcome.title': 'Welcome to SinkCMS',
+      'Auth.form.welcome.subtitle': 'Log in to your account',
+    },
+  },
+};
+
+export default {
+  config,
+  register() {
+    setPluginConfig({ presets: [defaultHtmlPreset] });
+  },
+};

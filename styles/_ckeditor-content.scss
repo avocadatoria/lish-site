@@ -1,0 +1,132 @@
+// ─────────────────────────────────────────────────────────
+// CKEditor 5 content styles
+//
+// Scoped under .cms-content so they only apply to
+// CKEditor-generated HTML rendered on the front end.
+// ─────────────────────────────────────────────────────────
+
+.cms-content {
+  line-height: 1.6;
+
+  // ── Images ──────────────────────────────────────────────
+
+  figure.image {
+    display: table;
+    clear: both;
+    text-align: center;
+    margin: 0.9em auto;
+
+    img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      min-width: 50px;
+      height: auto;
+    }
+
+    figcaption {
+      display: table-caption;
+      caption-side: bottom;
+      word-break: break-word;
+      color: #333;
+      background-color: #f7f7f7;
+      padding: 0.6em;
+      font-size: 0.75em;
+    }
+  }
+
+  // Resized images (have inline width on the figure)
+  figure.image.image_resized {
+    max-width: 100%;
+    display: block;
+    box-sizing: border-box;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+
+    figcaption {
+      display: block;
+    }
+  }
+
+  // Wrap text: right-aligned
+  figure.image-style-align-right {
+    float: right;
+    margin-left: 1.5em;
+    margin-right: 0;
+  }
+
+  // Wrap text: left-aligned
+  figure.image-style-align-left {
+    float: left;
+    margin-right: 1.5em;
+    margin-left: 0;
+  }
+
+  // Break text: centered
+  figure.image-style-align-center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // Break text: left-aligned (block)
+  figure.image-style-block-align-left {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  // Break text: right-aligned (block)
+  figure.image-style-block-align-right {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+  // Clear floats after content
+  &::after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  // ── Tables ──────────────────────────────────────────────
+
+  figure.table {
+    display: table;
+    margin: 0.9em auto;
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid #bfbfbf;
+
+      td, th {
+        border: 1px solid #bfbfbf;
+        padding: 0.4em 0.8em;
+        min-width: 2em;
+      }
+
+      th {
+        font-weight: 700;
+        background: rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+
+  // ── Block quotes ────────────────────────────────────────
+
+  blockquote {
+    border-left: 4px solid #ccc;
+    margin: 1em 0;
+    padding: 0.5em 1em;
+    font-style: italic;
+  }
+
+  // ── Horizontal rule ─────────────────────────────────────
+
+  hr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1.5em 0;
+  }
+}
