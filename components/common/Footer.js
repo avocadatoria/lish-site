@@ -58,7 +58,7 @@ export default function Footer() {
         </Typography>
       </Box>
       <Typography fontSize="inherit" color="text.secondary">
-        &copy; 2025–{new Date().getFullYear()} Prendox LLC. All rights reserved.
+        &copy; 2025–{new Date().getFullYear()} Long Island Select Healthcare, Inc. All rights reserved.
       </Typography>
     </Box>
   );

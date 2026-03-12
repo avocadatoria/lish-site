@@ -70,12 +70,6 @@
       "target": "api::site-section.site-section",
       "inversedBy": "Pages"
     },
-    "PageParts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::page-part.page-part",
-      "mappedBy": "Page"
-    },
     "People": {
       "type": "relation",
       "relation": "manyToMany",

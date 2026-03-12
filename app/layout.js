@@ -6,8 +6,8 @@ import Navbar from '../components/common/Navbar';
 import Footer from '../components/common/Footer';
 
 export const metadata = {
-  title: `Kitchen Sink Webapp`,
-  description: `Kitchen-sink template webapp`,
+  title: `LISH`,
+  description: `LISH webapp`,
   icons: { icon: `/favicon.ico` },
 };
 

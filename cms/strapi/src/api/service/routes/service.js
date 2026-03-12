@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * page-part router
+ * service router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::page-part.page-part');
+module.exports = createCoreRouter('api::service.service');

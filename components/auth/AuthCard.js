@@ -21,7 +21,7 @@ export default function AuthCard({ title, subtitle, children }) {
     >
       <Box sx={{ mb: 3 }}>
         <Link href={`/`}>
-          <img src={`/images/header.png`} alt={`Prendox`} width={64} height={64} />
+          <img src={`/images/header.png`} alt={`LISH Logo`} width={64} height={64} />
         </Link>
       </Box>
 

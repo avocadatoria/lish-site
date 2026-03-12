@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
  * Server Component — fetches from Fastify API directly (bypassing Nginx).
  */
 export const metadata = {
-  title: `Blog | Kitchen Sink Webapp`,
+  title: `Blog | LISH`,
   description: `Latest posts from our blog.`,
 };
 

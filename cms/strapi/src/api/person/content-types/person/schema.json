@@ -57,12 +57,6 @@
       "target": "api::page.page",
       "mappedBy": "People"
     },
-    "PageParts": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::page-part.page-part",
-      "mappedBy": "People"
-    },
     "InternalNote": {
       "type": "blocks",
       "private": true
@@ -70,6 +64,12 @@
     "InternalNotes": {
       "type": "text",
       "private": true
+    },
+    "Services": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::service.service",
+      "mappedBy": "People"
     }
   }
 }

@@ -3,12 +3,12 @@ import { getIronSession } from 'iron-session';
 
 const sessionOptions = {
   password: process.env.SESSION_SECRET,
-  cookieName: `scaffold_session`,
+  cookieName: process.env.SESSION_COOKIE_NAME,
   cookieOptions: {
     secure: true,
     httpOnly: true,
     sameSite: `lax`,
-    maxAge: 7 * 24 * 60 * 60, // 7 days
+    maxAge: 365 * 24 * 60 * 60,
   },
 };
 

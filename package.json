@@ -1,10 +1,10 @@
 {
-  "name": "scaffold-master",
+  "name": "lish-site",
   "version": "1.0.0",
-  "description": "Kitchen-sink template webapp — subtract features per client project",
+  "description": "LISH Website",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.30.3",
+  "packageManager": "pnpm@10.32.0",
   "engines": {
     "node": ">=24.0.0"
   },

@@ -1,6 +1,6 @@
-# Kitchen Sink Webapp
+# LISH Webapp
 
-Kitchen-sink template webapp — subtract features per client project.
+The LISH webapp.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ Kitchen-sink template webapp — subtract features per client project.
 ```bash
 # Clone and install
 git clone <repo-url>
-cd scaffold-master
+cd lish-site
 pnpm install
 
 # Configure environment
@@ -22,13 +22,13 @@ cp .env.example .env
 # Edit .env with your credentials (all values must be quoted)
 
 # Database setup
-createdb scaffold_dev
+createdb lish_dev
 pnpm db:migrate
 pnpm db:seed        # optional: demo data
 
 # Strapi CMS setup (see "Strapi CMS" section below for full details)
 pnpm install:strapi
-createdb scaffold_strapi
+createdb lish_strapi
 cp cms/strapi/.env.example cms/strapi/.env
 # Edit cms/strapi/.env — generate secrets, set DB credentials
 pnpm build:strapi
@@ -86,7 +86,7 @@ Browser → Nginx :3000  (main app)
 ## Project Structure
 
 ```
-scaffold-master/
+lish-site/
 ├── app/                    # Next.js App Router pages
 │   ├── (public)/           # No auth required
 │   ├── (authenticated)/    # Login required
@@ -146,7 +146,7 @@ Strapi v5 is the primary headless CMS. It runs as a separate sub-project at `cms
 Quick start:
 ```bash
 pnpm install:strapi
-createdb scaffold_strapi
+createdb lish_strapi
 cp cms/strapi/.env.example cms/strapi/.env   # generate secrets, set DB creds
 pnpm build:strapi
 pnpm dev
@@ -189,27 +189,3 @@ Key variables:
 - `NEXT_PUBLIC_APP_ENV` — Environment identifier (e.g. `"localdev-steve"`)
 - `NONPROD_EMAIL_SUBJECT_PREFIX` — Must be non-empty outside production
 - `ENABLE_MAIL` — `"true"` or `"false"` (logs instead of sending when false)
-
-## Subtracting Features
-
-This scaffold includes everything. To create a client project:
-
-1. Fork/clone the repo
-2. Remove unused route files from `server/routes/`
-3. Remove their registrations from `server/routes/index.js`
-4. Remove unused service files from `server/services/`
-5. Remove unused page directories from `app/`
-6. Remove unused dependencies from `package.json`
-7. Remove unused env vars from `.env.example` and `common/env.js`
-8. Run `pnpm install` to clean up lockfile
-
-## Deployment (AWS EC2)
-
-1. Set up EC2 instance with Node.js 24, PostgreSQL, Nginx
-2. Configure load balancer with SSL certificate
-3. Copy `nginx/prod.conf` to Nginx config
-4. Set environment variables
-5. `pnpm install --frozen-lockfile`
-6. `pnpm db:migrate`
-7. `pnpm build`
-8. `pnpm start` (use PM2 or systemd for process management)

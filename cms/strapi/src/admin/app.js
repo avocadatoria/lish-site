@@ -2,7 +2,7 @@ import { setPluginConfig, defaultHtmlPreset } from '@_sh/strapi-plugin-ckeditor'
 
 // ── Toolbar tweaks ──────────────────────────────────────────
 // Remove unwanted toolbar items
-const removeFromToolbar = ['fontFamily', 'fontSize', 'pageBreak', 'codeBlock', 'todoList'];
+const removeFromToolbar = ['fontFamily', 'fontSize', 'pageBreak', 'codeBlock', 'todoList', 'mediaEmbed', 'uploadImage'];
 defaultHtmlPreset.editorConfig.toolbar = defaultHtmlPreset.editorConfig.toolbar.filter(
   (item) => !removeFromToolbar.includes(item)
 );
@@ -62,7 +62,7 @@ const config = {
   locales: [],
   translations: {
     en: {
-      'Auth.form.welcome.title': 'Welcome to SinkCMS',
+      'Auth.form.welcome.title': 'LISH CMS',
       'Auth.form.welcome.subtitle': 'Log in to your account',
     },
   },

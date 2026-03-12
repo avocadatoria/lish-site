@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
  * Server Component — fetches from Fastify API directly (bypassing Nginx).
  */
 export const metadata = {
-  title: `CMS Pages | Kitchen Sink Webapp`,
+  title: `CMS Pages | LISH`,
   description: `Content managed via Strapi CMS.`,
 };
 

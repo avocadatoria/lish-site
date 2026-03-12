@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * page-part controller
+ * service controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::page-part.page-part');
+module.exports = createCoreController('api::service.service');

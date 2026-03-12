@@ -555,39 +555,6 @@ export interface ApiMainNavigationMainNavigation
   };
 }
 
-export interface ApiPagePartPagePart extends Struct.CollectionTypeSchema {
-  collectionName: 'page_parts';
-  info: {
-    displayName: 'PagePart';
-    pluralName: 'page-parts';
-    singularName: 'page-part';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::page-part.page-part'
-    > &
-      Schema.Attribute.Private;
-    Page: Schema.Attribute.Relation<'manyToOne', 'api::page.page'>;
-    People: Schema.Attribute.Relation<'manyToMany', 'api::person.person'>;
-    publishedAt: Schema.Attribute.DateTime;
-    Title: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiPagePage extends Struct.CollectionTypeSchema {
   collectionName: 'pages';
   info: {
@@ -624,10 +591,6 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
     NavbarLabel: Schema.Attribute.String;
-    PageParts: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::page-part.page-part'
-    >;
     People: Schema.Attribute.Relation<'manyToMany', 'api::person.person'>;
     publishedAt: Schema.Attribute.DateTime;
     Sections: Schema.Attribute.Relation<
@@ -683,15 +646,58 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     NamePrefix: Schema.Attribute.String;
     NameSuffix: Schema.Attribute.String;
-    PageParts: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::page-part.page-part'
-    >;
     Pages: Schema.Attribute.Relation<'manyToMany', 'api::page.page'>;
     Photo: Schema.Attribute.Media<'images' | 'files'>;
     publishedAt: Schema.Attribute.DateTime;
+    Services: Schema.Attribute.Relation<'manyToMany', 'api::service.service'>;
     Slug: Schema.Attribute.UID;
     Title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiServiceService extends Struct.CollectionTypeSchema {
+  collectionName: 'services';
+  info: {
+    displayName: 'Service';
+    pluralName: 'services';
+    singularName: 'service';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    CreatePage: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    DefaultLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service.service'
+    > &
+      Schema.Attribute.Private;
+    NavLabel: Schema.Attribute.String;
+    People: Schema.Attribute.Relation<'manyToMany', 'api::person.person'>;
+    ProvidersPageLabel: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    ServicePageContent: Schema.Attribute.RichText &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    ServicePageTagline: Schema.Attribute.String;
+    ShowInNav: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1274,9 +1280,9 @@ declare module '@strapi/strapi' {
       'api::link.link': ApiLinkLink;
       'api::location.location': ApiLocationLocation;
       'api::main-navigation.main-navigation': ApiMainNavigationMainNavigation;
-      'api::page-part.page-part': ApiPagePartPagePart;
       'api::page.page': ApiPagePage;
       'api::person.person': ApiPersonPerson;
+      'api::service.service': ApiServiceService;
       'api::site-section.site-section': ApiSiteSectionSiteSection;
       'api::text-snippet.text-snippet': ApiTextSnippetTextSnippet;
       'plugin::content-releases.release': PluginContentReleasesRelease;
