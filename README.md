@@ -58,7 +58,29 @@ Browser → Nginx :3000  (main app)
 - **Next.js** handles SSR (SEO-only) and client-side rendering.
 - **Fastify** handles all API logic, auth, database, and external services.
 - **Strapi** is the headless CMS on its own port. Admin at `:3443/admin`, content flows through Fastify.
-- **SSL terminates upstream** (FRP tunnel in dev, ALB in prod), never at Nginx.
+- **SSL terminates at CloudFront**, never at Nginx.
+
+### Dev Routing
+
+```
+Browser → CloudFront → FRP server (EC2) → FRP client (local Mac) → Nginx → services
+```
+
+All dev domains are CNAMEs to the CloudFront distribution:
+
+| Domain | Routes to |
+|--------|-----------|
+| `lish-dev-www.avocadatoria.com` | Nginx :3000 (main app) |
+| `lish-dev-cms.avocadatoria.com` | Nginx :3004 (Strapi) |
+| `frp-1.avocadatoria.com` | Nginx :3000 (legacy alias) |
+| `frp-2.avocadatoria.com` | Nginx :3004 (legacy alias) |
+
+### FRP Config Files
+
+| Machine | Config file |
+|---------|-------------|
+| Local Mac (client) | `/usr/local/etc/frp/frpc.toml` |
+| Remote EC2 (server) | `/etc/frp/frps.toml` |
 
 ## Available Scripts
 
@@ -150,7 +172,7 @@ createdb lish_strapi
 cp cms/strapi/.env.example cms/strapi/.env   # generate secrets, set DB creds
 pnpm build:strapi
 pnpm dev
-# → Admin panel at https://frp-2.avocadatoria.com/admin
+# → Admin panel at https://lish-dev-cms.avocadatoria.com/admin
 ```
 
 ## Auth Flow

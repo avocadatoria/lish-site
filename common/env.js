@@ -15,66 +15,18 @@ const envSchema = z.object({
   NONPROD_EMAIL_SUBJECT_PREFIX: z.string(),
   ENABLE_MAIL: z.enum([`true`, `false`]),
 
-  // Database
-  DB_HOST: z.string().min(1),
-  DB_PORT: z.coerce.number().int().positive(),
-  DB_NAME: z.string().min(1),
-  DB_USER: z.string().min(1),
-  DB_PASSWORD: z.string(),
-
-  // Auth0
-  AUTH0_DOMAIN: z.string().min(1),
-  AUTH0_CLIENT_ID: z.string().min(1),
-  AUTH0_CLIENT_SECRET: z.string().min(1),
-  AUTH0_CALLBACK_URL: z.string().url(),
-
-  AUTH0_DB_CONNECTION: z.string().min(1),
-
-  // Session
-  SESSION_SECRET: z.string().min(32),
-
-  // Stripe
-  STRIPE_SECRET_KEY: z.string().min(1),
-  STRIPE_PUBLISHABLE_KEY: z.string().min(1),
-  STRIPE_WEBHOOK_SECRET: z.string().min(1),
-
   // AWS
   AWS_REGION: z.string().min(1),
   AWS_ACCESS_KEY_ID: z.string().min(1),
   AWS_SECRET_ACCESS_KEY: z.string().min(1),
-  AWS_S3_BUCKET: z.string().min(1),
-  AWS_CLOUDFRONT_DOMAIN: z.string().min(1),
-  AWS_CLOUDFRONT_KEY_PAIR_ID: z.string().min(1),
-  AWS_CLOUDFRONT_PRIVATE_KEY: z.string().min(1),
   AWS_SES_FROM_EMAIL: z.string().min(1),
-  AWS_MEDIACONVERT_ENDPOINT: z.string().url(),
-  AWS_MEDIACONVERT_ROLE: z.string().min(1),
-
-  // Anthropic
-  ANTHROPIC_API_KEY: z.string().min(1),
-
-  // Google Calendar
-  GOOGLE_CLIENT_ID: z.string().min(1),
-  GOOGLE_CLIENT_SECRET: z.string().min(1),
-  GOOGLE_REDIRECT_URI: z.string().url(),
-
-  // Zoom
-  ZOOM_ACCOUNT_ID: z.string().min(1),
-  ZOOM_CLIENT_ID: z.string().min(1),
-  ZOOM_CLIENT_SECRET: z.string().min(1),
 
   // Strapi (primary CMS)
   STRAPI_URL: z.string().url(),
   STRAPI_API_TOKEN: z.string().min(1),
 
-  // WordPress (secondary CMS)
-  WORDPRESS_API_URL: z.string().url(),
-
   // Contact Form
   CONTACT_US_RECIPIENT: z.string().email(),
-
-  // Feature flags
-  REQUIRE_EMAIL_VERIFICATION: z.enum([`true`, `false`]),
 
   // MUI
   NEXT_PUBLIC_MUI_LICENSE_KEY: z.string().optional(),

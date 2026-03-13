@@ -1,18 +1,27 @@
 import { setPluginConfig, defaultHtmlPreset } from '@_sh/strapi-plugin-ckeditor';
 
 // ── Toolbar tweaks ──────────────────────────────────────────
-// Remove unwanted toolbar items
-const removeFromToolbar = ['fontFamily', 'fontSize', 'pageBreak', 'codeBlock', 'todoList', 'mediaEmbed', 'uploadImage'];
-defaultHtmlPreset.editorConfig.toolbar = defaultHtmlPreset.editorConfig.toolbar.filter(
-  (item) => !removeFromToolbar.includes(item)
-);
-
-// Add bold, italic, strikethrough if not already present
-for (const item of ['bold', 'italic', 'strikethrough']) {
-  if (!defaultHtmlPreset.editorConfig.toolbar.includes(item)) {
-    defaultHtmlPreset.editorConfig.toolbar.unshift(item);
-  }
-}
+// Hardcoded toolbar — explicit order, no guessing
+defaultHtmlPreset.editorConfig.toolbar = [
+  'heading',
+  'bold',
+  'italic',
+  'strikethrough',
+  'alignment',
+  'indent', 'outdent',
+  'bulletedList',
+  'numberedList',
+  'link',
+  'strapiMediaLib',
+  'blockQuote',
+  'insertTable',
+  'htmlEmbed',
+  'sourceEditing',
+  'specialCharacters',
+  'horizontalLine',
+  'undo',
+  'redo',
+];
 
 delete defaultHtmlPreset.editorConfig.fontFamily;
 

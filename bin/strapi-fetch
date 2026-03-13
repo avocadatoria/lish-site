@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+// Usage: bin/strapi-fetch <path> [path2 ...]
+// Example: bin/strapi-fetch '/api/sections?filters[URLSlug][$eq]=who-we-are&populate=Pages'
+// Fetches from Strapi (localhost:1337) with the API token from cms/strapi/.env or root .env
+
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+
+const ROOT = resolve(import.meta.dirname, '..');
+
+function loadToken() {
+  for (const envPath of [`${ROOT}/.env`, `${ROOT}/cms/strapi/.env`]) {
+    try {
+      const content = readFileSync(envPath, 'utf8');
+      const match = content.match(/^STRAPI_API_TOKEN=["']?(.+?)["']?\s*$/m);
+      if (match) return match[1];
+    } catch {}
+  }
+  console.error('Could not find STRAPI_API_TOKEN');
+  process.exit(1);
+}
+
+const token = loadToken();
+const paths = process.argv.slice(2);
+
+if (paths.length === 0) {
+  console.error('Usage: bin/strapi-fetch <path> [path2 ...]');
+  process.exit(1);
+}
+
+for (const p of paths) {
+  const url = p.startsWith('http') ? p : `http://localhost:1337${p}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const json = await res.json();
+  console.log(JSON.stringify(json, null, 2));
+}

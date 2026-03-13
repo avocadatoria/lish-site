@@ -1,7 +1,17 @@
 module.exports = [
   'strapi::logger',
   'strapi::errors',
-  'strapi::security',
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        directives: {
+          'img-src': ["'self'", 'data:', 'blob:', 'https://lish-dev-www.avocadatoria.com'],
+          'media-src': ["'self'", 'data:', 'blob:', 'https://lish-dev-www.avocadatoria.com'],
+        },
+      },
+    },
+  },
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::query',

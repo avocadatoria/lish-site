@@ -4,31 +4,6 @@ async function errorHandlerPlugin(fastify) {
   fastify.setErrorHandler((error, request, reply) => {
     const isProd = process.env.NODE_ENV === `production`;
 
-    // ── Sequelize ValidationError ───────────────────
-    if (error.name === `SequelizeValidationError`) {
-      return reply.code(400).send({
-        error: `VALIDATION_ERROR`,
-        message: `One or more fields failed validation`,
-        details: error.errors.map((e) => ({
-          field: e.path,
-          message: e.message,
-          type: e.type,
-        })),
-      });
-    }
-
-    // ── Sequelize UniqueConstraintError ──────────────
-    if (error.name === `SequelizeUniqueConstraintError`) {
-      return reply.code(409).send({
-        error: `CONFLICT`,
-        message: `A record with that value already exists`,
-        details: error.errors.map((e) => ({
-          field: e.path,
-          message: e.message,
-        })),
-      });
-    }
-
     // ── Zod validation errors ───────────────────────
     if (error.name === `ZodError` || error.issues) {
       return reply.code(400).send({

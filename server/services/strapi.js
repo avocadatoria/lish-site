@@ -13,8 +13,8 @@ const headers = {
 /**
  * Generic fetch helper for Strapi REST API.
  */
-async function strapiFetch(url) {
-  const response = await fetch(url, { headers });
+async function strapiFetch(url, options = {}) {
+  const response = await fetch(url, { headers, ...options });
 
   if (!response.ok) {
     const err = new Error(`Strapi API error: ${response.status}`);
@@ -84,6 +84,23 @@ export async function getEntryBySlug(pluralApiId, slug, params = {}) {
   }
 
   return result.data[0];
+}
+
+/**
+ * Create a new entry in a collection type.
+ *
+ * @param {string} pluralApiId - e.g. 'inquiries'
+ * @param {object} data - the fields to create
+ * @returns {Promise<{ data: object, meta: object }>}
+ */
+export async function createEntry(pluralApiId, data) {
+  const url = new URL(`/api/${pluralApiId}`, STRAPI_URL);
+
+  log.debug({ pluralApiId, data }, `Creating Strapi entry`);
+  return strapiFetch(url, {
+    method: `POST`,
+    body: JSON.stringify({ data }),
+  });
 }
 
 /**

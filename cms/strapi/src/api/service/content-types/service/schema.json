@@ -47,6 +47,11 @@
     "ServicePageTagline": {
       "type": "string"
     },
+    "URLSlug": {
+      "type": "uid",
+      "targetField": "DefaultLabel",
+      "required": true
+    },
     "InternalNotes": {
       "type": "text",
       "private": true

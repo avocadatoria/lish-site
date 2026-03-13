@@ -1,24 +1,19 @@
-import db from '../../db/models/index.js';
-import { inquirySchema, paginationSchema } from '../../common/validation.js';
-import { INQUIRY_STATUS_VALUES } from '../../common/constants.js';
+import { inquirySchema } from '../../common/validation.js';
 import { sendMail } from '../../common/mailer.js';
-import { paginateQuery } from '../../common/pagination.js';
-import { z } from 'zod';
-
-const statusUpdateSchema = z.object({
-  status: z.enum(INQUIRY_STATUS_VALUES),
-});
+import { createEntry } from '../services/strapi.js';
 
 export default async function inquiryRoutes(fastify) {
-  const admin = { preHandler: [fastify.requireAdmin] };
-
   // ── POST /api/inquiries ─────────────────────
-  // Public — create a new inquiry (contact form / lead capture).
+  // Public — create a new inquiry (contact form).
   fastify.post(`/api/inquiries`, async (request, reply) => {
     const data = inquirySchema.parse(request.body);
 
-    const inquiry = await db.Inquiry.create({
-      ...data,
+    const result = await createEntry(`inquiries`, {
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      subject: data.subject,
+      message: data.message,
       status: `new`,
     });
 
@@ -38,39 +33,9 @@ export default async function inquiryRoutes(fastify) {
         ].join(`\n`),
       });
     } catch (err) {
-      request.log.error({ err, inquiryId: inquiry.id }, `Failed to send inquiry notification email`);
+      request.log.error({ err }, `Failed to send inquiry notification email`);
     }
 
-    return reply.code(201).send(inquiry);
-  });
-
-  // ── GET /api/inquiries ──────────────────────
-  // Admin — list all inquiries with cursor-based pagination.
-  fastify.get(`/api/inquiries`, admin, async (request) => {
-    const { cursor, limit } = paginationSchema.parse(request.query);
-
-    return paginateQuery(db.Inquiry, {
-      cursor,
-      limit,
-      order: [[`createdAt`, `DESC`]],
-    });
-  });
-
-  // ── PUT /api/inquiries/:id/status ───────────
-  // Admin — update inquiry status.
-  fastify.put(`/api/inquiries/:id/status`, admin, async (request, reply) => {
-    const { status } = statusUpdateSchema.parse(request.body);
-
-    const inquiry = await db.Inquiry.findByPk(request.params.id);
-
-    if (!inquiry) {
-      return reply.code(404).send({
-        error: `NOT_FOUND`,
-        message: `Inquiry not found`,
-      });
-    }
-
-    await inquiry.update({ status });
-    return inquiry;
+    return reply.code(201).send(result.data);
   });
 }

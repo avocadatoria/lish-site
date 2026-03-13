@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['frp-1.avocadatoria.com'],
+  allowedDevOrigins: ['lish-dev-www.avocadatoria.com'],
   poweredByHeader: false,
   images: {
     unoptimized: true,

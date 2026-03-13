@@ -701,6 +701,7 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    URLSlug: Schema.Attribute.UID<'DefaultLabel'> & Schema.Attribute.Required;
   };
 }
 
@@ -732,6 +733,7 @@ export interface ApiSiteSectionSiteSection extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    URLSlug: Schema.Attribute.UID<'HeaderLabel'>;
   };
 }
 

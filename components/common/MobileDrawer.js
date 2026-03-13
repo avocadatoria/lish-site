@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -12,52 +12,27 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import WrappedMUIDrawer from '../ui/WrappedMUIDrawer';
 import Logo from './Logo';
-import { PUBLIC_SECTIONS, AUTH_SECTIONS } from './nav-data.js';
 
-export default function MobileDrawer({ open, onClose, user }) {
-  const router = useRouter();
+export default function MobileDrawer({ open, onClose, sections = [], services = [] }) {
   const [expanded, setExpanded] = useState({});
 
   function toggleSection(label) {
     setExpanded((prev) => ({ ...prev, [label]: !prev[label] }));
   }
 
-  function navigate(href) {
-    router.push(href);
-    onClose();
-  }
-
-  function renderSections(sections) {
-    return sections.map((section) => {
-      // Direct link (no sub-items)
-      if (section.href) {
-        return (
-          <ListItemButton key={section.label} onClick={() => navigate(section.href)}>
-            <ListItemText primary={section.label} />
-          </ListItemButton>
-        );
-      }
-
-      // Collapsible section
-      const isOpen = expanded[section.label] || false;
-      return (
-        <div key={section.label}>
-          <ListItemButton onClick={() => toggleSection(section.label)}>
-            <ListItemText primary={section.label} primaryTypographyProps={{ fontWeight: 600 }} />
-            {isOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={isOpen} timeout={0} unmountOnExit>
-            <List disablePadding>
-              {section.items.map((item) => (
-                <ListItemButton key={item.href} sx={{ pl: 4 }} onClick={() => navigate(item.href)}>
-                  <ListItemText primary={item.label} />
-                </ListItemButton>
-              ))}
-            </List>
-          </Collapse>
-        </div>
-      );
-    });
+  function getItems(section) {
+    if (section.URLSlug === `services`) {
+      return services.map((s) => ({
+        key: s.documentId,
+        label: s.NavLabel || s.DefaultLabel,
+        href: `/${section.URLSlug}/${s.URLSlug}`,
+      }));
+    }
+    return (section.Pages || []).filter((p) => !p.HideInNav).map((p) => ({
+      key: p.documentId,
+      label: p.NavbarLabel || p.title,
+      href: `/${section.URLSlug}/${p.Slug}`,
+    }));
   }
 
   return (
@@ -67,16 +42,36 @@ export default function MobileDrawer({ open, onClose, user }) {
       </Box>
       <Divider />
       <List>
-        {renderSections(PUBLIC_SECTIONS)}
+        {sections.map((section) => {
+          const items = getItems(section);
+          const isOpen = expanded[section.NavbarLabel] || false;
+          return (
+            <div key={section.documentId}>
+              <ListItemButton onClick={() => toggleSection(section.NavbarLabel)}>
+                <ListItemText primary={section.NavbarLabel} primaryTypographyProps={{ fontWeight: 600 }} />
+                {items.length > 0 && (isOpen ? <ExpandLess /> : <ExpandMore />)}
+              </ListItemButton>
+              {items.length > 0 && (
+                <Collapse in={isOpen} timeout={0} unmountOnExit>
+                  <List disablePadding>
+                    {items.map((item) => (
+                      <ListItemButton
+                        key={item.key}
+                        component={Link}
+                        href={item.href}
+                        onClick={onClose}
+                        sx={{ pl: 4 }}
+                      >
+                        <ListItemText primary={item.label} />
+                      </ListItemButton>
+                    ))}
+                  </List>
+                </Collapse>
+              )}
+            </div>
+          );
+        })}
       </List>
-      {user && (
-        <>
-          <Divider />
-          <List>
-            {renderSections(AUTH_SECTIONS)}
-          </List>
-        </>
-      )}
     </WrappedMUIDrawer>
   );
 }

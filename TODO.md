@@ -1,14 +1,5 @@
 # TODO
 
-## Post-Scaffold Setup
-- [ ] Configure Strapi content models (separate service, own PostgreSQL)
-- [ ] Configure Stripe products/prices in Stripe Dashboard
-- [ ] Set up Auth0 tenant, application, and callback URLs
-- [ ] Create PostgreSQL database and run migrations
-- [ ] Set up AWS credentials (S3 bucket, SES verified domain, SNS topics)
-- [ ] Configure Google Cloud project for Calendar API OAuth
-- [ ] Create Zoom Server-to-Server OAuth app
-
 ## Production Hardening
 - [ ] Add rate limiting (`@fastify/rate-limit`) to auth and public endpoints
 - [ ] Add security headers (`@fastify/helmet`, CSP headers)

@@ -9,8 +9,6 @@ export async function validateServices() {
   log.info(`Checking external service connectivity...`);
 
   const checks = [
-    { name: `Auth0`, check: checkAuth0 },
-    { name: `Stripe`, check: checkStripe },
     { name: `AWS S3`, check: checkAwsS3 },
   ];
 
@@ -22,20 +20,6 @@ export async function validateServices() {
       log.warn({ err: err.message }, `${name}: UNREACHABLE (non-fatal)`);
     }
   }
-}
-
-async function checkAuth0() {
-  const domain = process.env.AUTH0_DOMAIN;
-  const res = await fetch(`https://${domain}/.well-known/openid-configuration`, {
-    signal: AbortSignal.timeout(5000),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-}
-
-async function checkStripe() {
-  const { default: Stripe } = await import(`stripe`);
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  await stripe.balance.retrieve();
 }
 
 async function checkAwsS3() {

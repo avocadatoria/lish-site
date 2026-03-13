@@ -2,7 +2,7 @@ export default async function sitemap() {
   const baseUrl = process.env.APP_URL;
 
   // Static pages
-  const staticPages = [``, `/about`, `/wp-ssr`].map((path) => ({
+  const staticPages = [``, `/about`].map((path) => ({
     url: `${baseUrl}${path}`,
     lastModified: new Date(),
     changeFrequency: `weekly`,

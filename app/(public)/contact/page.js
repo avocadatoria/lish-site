@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,7 +10,6 @@ import WrappedMUITextField from '../../../components/ui/form-els/WrappedMUITextF
 import WrappedMUISelect from '../../../components/ui/form-els/WrappedMUISelect.jsx';
 import WrappedMUIButton from '../../../components/ui/WrappedMUIButton.jsx';
 import WrappedMUIAlert from '../../../components/ui/WrappedMUIAlert.jsx';
-import { useAuth } from '../../../hooks/useAuth.js';
 import { apiFetch } from '../../../lib/api-client.js';
 
 const CATEGORIES = [
@@ -23,7 +22,6 @@ const CATEGORIES = [
 ];
 
 export default function ContactPage() {
-  const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
@@ -36,15 +34,6 @@ export default function ContactPage() {
       message: ``,
     },
   });
-
-  useEffect(() => {
-    if (!user) return;
-    reset((prev) => ({
-      ...prev,
-      name: [user.firstName, user.lastName].filter(Boolean).join(` `),
-      email: user.email || ``,
-    }));
-  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function onSubmit(data) {
     setSubmitError(null);
