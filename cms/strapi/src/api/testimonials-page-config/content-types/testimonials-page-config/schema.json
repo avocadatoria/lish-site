@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "testimonials_page_configs",
+  "info": {
+    "singularName": "testimonials-page-config",
+    "pluralName": "testimonials-page-configs",
+    "displayName": "Testimonials Page Config"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "testimonials": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::testimonial.testimonial"
+    },
+    "InternalNotes": {
+      "type": "text"
+    },
+    "label": {
+      "type": "string"
+    }
+  }
+}

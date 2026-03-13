@@ -8,6 +8,25 @@
 .cms-content {
   line-height: 1.6;
 
+  // Override pasted inline styles — force our own font/color/size
+  span[style],
+  p[style],
+  li[style] {
+    font-size: inherit !important;
+    font-family: inherit !important;
+    color: inherit !important;
+    background-color: transparent !important;
+  }
+
+  p {
+    margin: 0 0 1em;
+  }
+
+  ul, ol {
+    margin: 0 0 1em;
+    padding-left: 1.5em;
+  }
+
   // ── Images ──────────────────────────────────────────────
 
   figure.image {
@@ -81,6 +100,36 @@
   figure.image-style-block-align-right {
     margin-left: auto;
     margin-right: 0;
+  }
+
+  // ── Inline images (no <figure> wrapper) ────────────────
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  img.image_resized {
+    height: auto;
+  }
+
+  img.image-style-align-right {
+    float: right;
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  img.image-style-align-left {
+    float: left;
+    margin-right: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  img.image-style-align-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
   }
 
   // Clear floats after content

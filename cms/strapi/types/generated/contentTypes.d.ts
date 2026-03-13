@@ -445,6 +445,7 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    label: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -538,6 +539,7 @@ export interface ApiMainNavigationMainNavigation
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    label: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -549,6 +551,37 @@ export interface ApiMainNavigationMainNavigation
       'oneToMany',
       'api::site-section.site-section'
     >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiOurProvidersServicesOrderOurProvidersServicesOrder
+  extends Struct.SingleTypeSchema {
+  collectionName: 'our_providers_services_orders';
+  info: {
+    displayName: 'Providers Page Config';
+    pluralName: 'our-providers-services-orders';
+    singularName: 'our-providers-services-order';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    label: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::our-providers-services-order.our-providers-services-order'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -734,6 +767,78 @@ export interface ApiSiteSectionSiteSection extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     URLSlug: Schema.Attribute.UID<'HeaderLabel'>;
+  };
+}
+
+export interface ApiTestimonialTestimonial extends Struct.CollectionTypeSchema {
+  collectionName: 'testimonials';
+  info: {
+    displayName: 'Testimonial';
+    pluralName: 'testimonials';
+    singularName: 'testimonial';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Author: Schema.Attribute.String & Schema.Attribute.Required;
+    Content: Schema.Attribute.RichText &
+      Schema.Attribute.Required &
+      Schema.Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'defaultHtml';
+        }
+      >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    DerivedContentPlaintext: Schema.Attribute.String;
+    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::testimonial.testimonial'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTestimonialsPageConfigTestimonialsPageConfig
+  extends Struct.SingleTypeSchema {
+  collectionName: 'testimonials_page_configs';
+  info: {
+    displayName: 'Testimonials Page Config';
+    pluralName: 'testimonials-page-configs';
+    singularName: 'testimonials-page-config';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    InternalNotes: Schema.Attribute.Text;
+    label: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::testimonials-page-config.testimonials-page-config'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    testimonials: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::testimonial.testimonial'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1282,10 +1387,13 @@ declare module '@strapi/strapi' {
       'api::link.link': ApiLinkLink;
       'api::location.location': ApiLocationLocation;
       'api::main-navigation.main-navigation': ApiMainNavigationMainNavigation;
+      'api::our-providers-services-order.our-providers-services-order': ApiOurProvidersServicesOrderOurProvidersServicesOrder;
       'api::page.page': ApiPagePage;
       'api::person.person': ApiPersonPerson;
       'api::service.service': ApiServiceService;
       'api::site-section.site-section': ApiSiteSectionSiteSection;
+      'api::testimonial.testimonial': ApiTestimonialTestimonial;
+      'api::testimonials-page-config.testimonials-page-config': ApiTestimonialsPageConfigTestimonialsPageConfig;
       'api::text-snippet.text-snippet': ApiTextSnippetTextSnippet;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

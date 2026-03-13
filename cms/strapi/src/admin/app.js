@@ -55,6 +55,9 @@ defaultHtmlPreset.editorConfig.htmlSupport = {
       styles: true,
       classes: true,
     },
+    {
+      name: 'span',
+    },
   ],
 };
 
@@ -65,6 +68,13 @@ defaultHtmlPreset.editorConfig.removePlugins = [
 ];
 defaultHtmlPreset.editorConfig.pasteFromOffice = {
   keepOriginalStyling: false,
+};
+defaultHtmlPreset.editorConfig.pasteFromOfficeEnhanced = {
+  keepOriginalStyling: false,
+};
+defaultHtmlPreset.editorConfig.clipboard = {
+  ...(defaultHtmlPreset.editorConfig.clipboard || {}),
+  handleImages: false,
 };
 
 const config = {

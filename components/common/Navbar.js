@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,6 +12,9 @@ import MobileDrawer from './MobileDrawer';
 import styles from './Navbar.module.scss';
 
 function NavSection({ section, services }) {
+  const [hovered, setHovered] = useState(false);
+  const [suppressed, setSuppressed] = useState(false);
+  const suppressTimer = useRef(null);
   const isServices = section.URLSlug === `services`;
 
   const items = isServices
@@ -26,19 +29,39 @@ function NavSection({ section, services }) {
         href: `/${section.URLSlug}/${p.Slug}`,
       }));
 
+  const showDropdown = hovered && !suppressed && items.length > 0;
+
+  function handleClick() {
+    setSuppressed(true);
+    clearTimeout(suppressTimer.current);
+  }
+
+  const handleMouseEnter = useCallback(() => {
+    setHovered(true);
+    setSuppressed(false);
+    clearTimeout(suppressTimer.current);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setHovered(false);
+    setSuppressed(false);
+    clearTimeout(suppressTimer.current);
+  }, []);
+
   return (
-    <div className={styles.section}>
-      <Link href={`/${section.URLSlug}`} className={styles.sectionLink}>
+    <div className={styles.section} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <Link href={`/${section.URLSlug}`} className={styles.sectionLink} onClick={handleClick}>
         {section.NavbarLabel}
         {items.length > 0 && <span className={styles.arrow}>&#9662;</span>}
       </Link>
-      {items.length > 0 && (
+      {showDropdown && (
         <div className={styles.dropdown}>
           {items.map((item) => (
             <Link
               key={item.key}
               href={item.href}
               className={styles.dropdownItem}
+              onClick={handleClick}
             >
               {item.label}
             </Link>

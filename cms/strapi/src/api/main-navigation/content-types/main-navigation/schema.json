@@ -19,6 +19,9 @@
     "InternalNotes": {
       "type": "text",
       "private": true
+    },
+    "label": {
+      "type": "string"
     }
   }
 }
