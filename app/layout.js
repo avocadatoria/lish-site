@@ -14,7 +14,7 @@ export const metadata = {
 async function getNavSections() {
   try {
     const res = await fetch(`${process.env.API_URL}/api/strapi/single/main-navigation?populate%5BSections%5D%5Bpopulate%5D=Pages`, {
-      next: { revalidate: 60 },
+      next: { revalidate: Number(process.env.SSR_REVALIDATE_SECS) },
     });
     if (!res.ok) return [];
     const json = await res.json();
@@ -26,12 +26,12 @@ async function getNavSections() {
 
 async function getNavServices() {
   try {
-    const res = await fetch(`${process.env.API_URL}/api/strapi/services?sort=DefaultLabel&pagination%5BpageSize%5D=100`, {
-      next: { revalidate: 60 },
+    const res = await fetch(`${process.env.API_URL}/api/strapi/single/main-navigation?populate=Services`, {
+      next: { revalidate: Number(process.env.SSR_REVALIDATE_SECS) },
     });
     if (!res.ok) return [];
     const json = await res.json();
-    return (json.data || []).filter((s) => s.ShowInNav && s.CreatePage);
+    return json.data?.Services || [];
   } catch {
     return [];
   }

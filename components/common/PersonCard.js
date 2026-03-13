@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import WrappedMUIAccordion from '../ui/WrappedMUIAccordion';
-import { stripSpans } from '../../lib/sanitize-html.js';
+
 
 function getNameParts(person) {
   const parts = [];
@@ -73,7 +73,7 @@ export function ExecLeaderCard({ person }) {
 
   const nameDisplay = suffix ? `${nameLine}, ${suffix}` : nameLine;
 
-  const bioHtml = person.Bio || `<p>Bio coming soon.</p>`;
+  const bioHtml = person.sanitizedBio || `<p>Bio coming soon.</p>`;
 
   return (
     <Card sx={{ height: `100%` }}>
@@ -97,7 +97,7 @@ export function ExecLeaderCard({ person }) {
         <WrappedMUIAccordion
           items={[{
             title: `Learn More`,
-            content: <div className={`cms-content`} style={{ fontSize: `0.85rem` }} dangerouslySetInnerHTML={{ __html: stripSpans(bioHtml) }} />,
+            content: <div className={`cms-content`} style={{ fontSize: `0.85rem` }} dangerouslySetInnerHTML={{ __html: bioHtml }} />,
           }]}
         />
       </CardContent>

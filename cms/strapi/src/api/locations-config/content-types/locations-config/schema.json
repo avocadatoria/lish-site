@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "locations_configs",
+  "info": {
+    "singularName": "locations-config",
+    "pluralName": "locations-configs",
+    "displayName": "Locations Config"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Locations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::location.location"
+    },
+    "label": {
+      "type": "string"
+    },
+    "InternalNotes": {
+      "type": "text"
+    }
+  }
+}

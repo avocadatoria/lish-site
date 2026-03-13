@@ -104,6 +104,12 @@
 
   // ── Inline images (no <figure> wrapper) ────────────────
 
+  // CKEditor wraps images in <p style="text-align:center"> —
+  // the reset sets img to display:block which breaks text-align.
+  p > img {
+    display: inline-block;
+  }
+
   img {
     max-width: 100%;
     height: auto;

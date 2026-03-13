@@ -21,10 +21,8 @@
     "ProvidersPageLabel": {
       "type": "string"
     },
-    "ShowInNav": {
-      "type": "boolean",
-      "required": true,
-      "default": true
+    "HomepageLabel": {
+      "type": "string"
     },
     "ServicePageContent": {
       "type": "customField",
@@ -32,6 +30,9 @@
       "options": {
         "preset": "defaultHtml"
       }
+    },
+    "ServicePageTagline": {
+      "type": "string"
     },
     "People": {
       "type": "relation",
@@ -43,9 +44,6 @@
       "type": "boolean",
       "required": true,
       "default": true
-    },
-    "ServicePageTagline": {
-      "type": "string"
     },
     "URLSlug": {
       "type": "uid",

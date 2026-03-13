@@ -16,6 +16,11 @@
       "relation": "oneToMany",
       "target": "api::site-section.site-section"
     },
+    "Services": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::service.service"
+    },
     "InternalNotes": {
       "type": "text",
       "private": true

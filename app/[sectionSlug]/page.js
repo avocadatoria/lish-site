@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import Typography from '@mui/material/Typography';
 import { getSectionBySlug } from '../../lib/server-api.js';
-import { stripSpans } from '../../lib/sanitize-html.js';
+
 
 export async function generateMetadata({ params }) {
   const { sectionSlug } = await params;
@@ -28,6 +28,8 @@ export default async function SectionHomePage({ params }) {
   const rootPage = (section.Pages || []).find((p) => p.IsSectionRoot);
   if (!rootPage) notFound();
 
+  const contentHtml = rootPage.Content || null;
+
   return (
     <>
       <Typography component={`h1`} variant={`h3`} gutterBottom>
@@ -38,8 +40,8 @@ export default async function SectionHomePage({ params }) {
           {rootPage.Tagline}
         </Typography>
       )}
-      {rootPage.Content && (
-        <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: stripSpans(rootPage.Content) }} />
+      {contentHtml && (
+        <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: contentHtml }} />
       )}
     </>
   );

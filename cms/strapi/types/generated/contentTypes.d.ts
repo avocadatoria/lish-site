@@ -444,6 +444,10 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    HomepageServices: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::service.service'
+    >;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
     label: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -456,34 +460,6 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiLinkLink extends Struct.CollectionTypeSchema {
-  collectionName: 'links';
-  info: {
-    displayName: 'Link';
-    pluralName: 'links';
-    singularName: 'link';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
-    Label: Schema.Attribute.String & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::link.link'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    Tooltip: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    URL: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -523,6 +499,37 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiLocationsConfigLocationsConfig
+  extends Struct.SingleTypeSchema {
+  collectionName: 'locations_configs';
+  info: {
+    displayName: 'Locations Config';
+    pluralName: 'locations-configs';
+    singularName: 'locations-config';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    InternalNotes: Schema.Attribute.Text;
+    label: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::locations-config.locations-config'
+    > &
+      Schema.Attribute.Private;
+    Locations: Schema.Attribute.Relation<'oneToMany', 'api::location.location'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiMainNavigationMainNavigation
   extends Struct.SingleTypeSchema {
   collectionName: 'main_navigations';
@@ -551,6 +558,7 @@ export interface ApiMainNavigationMainNavigation
       'oneToMany',
       'api::site-section.site-section'
     >;
+    Services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -709,6 +717,7 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<true>;
     DefaultLabel: Schema.Attribute.String & Schema.Attribute.Required;
+    HomepageLabel: Schema.Attribute.String;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -728,9 +737,6 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
         }
       >;
     ServicePageTagline: Schema.Attribute.String;
-    ShowInNav: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<true>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -845,7 +851,7 @@ export interface ApiTestimonialsPageConfigTestimonialsPageConfig
 export interface ApiTextSnippetTextSnippet extends Struct.CollectionTypeSchema {
   collectionName: 'text_snippets';
   info: {
-    displayName: 'TextSnippet';
+    displayName: 'Snippet';
     pluralName: 'text-snippets';
     singularName: 'text-snippet';
   };
@@ -856,8 +862,11 @@ export interface ApiTextSnippetTextSnippet extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    EmbedCode: Schema.Attribute.String;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
-    Key: Schema.Attribute.String & Schema.Attribute.Required;
+    Key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1384,8 +1393,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::homepage.homepage': ApiHomepageHomepage;
-      'api::link.link': ApiLinkLink;
       'api::location.location': ApiLocationLocation;
+      'api::locations-config.locations-config': ApiLocationsConfigLocationsConfig;
       'api::main-navigation.main-navigation': ApiMainNavigationMainNavigation;
       'api::our-providers-services-order.our-providers-services-order': ApiOurProvidersServicesOrderOurProvidersServicesOrder;
       'api::page.page': ApiPagePage;

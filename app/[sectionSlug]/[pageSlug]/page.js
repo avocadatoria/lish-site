@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { getSectionBySlug, getPageBySlug, getPageWithPeople, getProvidersPageServices, getServiceBySlug } from '../../../lib/server-api.js';
-import { stripSpans } from '../../../lib/sanitize-html.js';
+import { getSectionBySlug, getPageBySlug, getPageWithPeople, getProvidersPageServices, getServiceBySlug, getTestimonialsPageConfig } from '../../../lib/server-api.js';
+
 import { BoardMemberCard, ExecLeaderCard } from '../../../components/common/PersonCard.js';
 
 const PEOPLE_PAGES = new Set([`executive-leadership`, `board-of-directors`]);
@@ -42,12 +42,15 @@ export default async function SectionSubPage({ params }) {
 
   const isServicePage = sectionSlug === `services`;
   const isProviders = pageSlug === `our-providers`;
+  const isTestimonials = pageSlug === `testimonials`;
   const hasPeople = PEOPLE_PAGES.has(pageSlug);
 
   // ── Service detail page (/services/allergy, etc.) ──
   if (isServicePage) {
     const service = await getServiceBySlug(pageSlug);
     if (!service || !service.CreatePage) notFound();
+
+    const serviceContentHtml = service.ServicePageContent || null;
 
     return (
       <>
@@ -59,18 +62,19 @@ export default async function SectionSubPage({ params }) {
             {service.ServicePageTagline}
           </Typography>
         )}
-        {service.ServicePageContent && (
-          <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: stripSpans(service.ServicePageContent) }} />
+        {serviceContentHtml && (
+          <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: serviceContentHtml }} />
         )}
       </>
     );
   }
 
   // ── Regular section subpages ──
-  const [section, page, services] = await Promise.all([
+  const [section, page, services, testimonialsConfig] = await Promise.all([
     getSectionBySlug(sectionSlug),
     hasPeople ? getPageWithPeople(pageSlug) : getPageBySlug(pageSlug),
     isProviders ? getProvidersPageServices() : null,
+    isTestimonials ? getTestimonialsPageConfig() : null,
   ]);
 
   if (!section || !page) notFound();
@@ -78,6 +82,12 @@ export default async function SectionSubPage({ params }) {
   const people = page.People || [];
   const isBoard = pageSlug === `board-of-directors`;
   const providerServices = services || [];
+  const testimonials = testimonialsConfig?.testimonials || [];
+
+  const pageContentHtml = page.Content || null;
+  const testimonialHtmls = isTestimonials
+    ? testimonials.map((t) => t.Content)
+    : [];
 
   return (
     <>
@@ -89,8 +99,8 @@ export default async function SectionSubPage({ params }) {
           {page.Tagline}
         </Typography>
       )}
-      {page.Content && (
-        <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: stripSpans(page.Content) }} />
+      {pageContentHtml && (
+        <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: pageContentHtml }} />
       )}
 
       {/* Executive Leadership / Board of Directors */}
@@ -122,6 +132,20 @@ export default async function SectionSubPage({ params }) {
           </Grid>
         </section>
       ))}
+
+      {/* Testimonials */}
+      {isTestimonials && testimonials.length > 0 && (
+        <div style={{ marginTop: `2rem` }}>
+          {testimonials.map((testimonial, i) => (
+            <div key={testimonial.documentId} style={{ marginBottom: `2.5rem` }}>
+              <div className={`cms-content`} dangerouslySetInnerHTML={{ __html: testimonialHtmls[i] }} />
+              <Typography variant={`subtitle2`} color={`text.secondary`} sx={{ mt: 1 }}>
+                — {testimonial.Author}
+              </Typography>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }

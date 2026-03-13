@@ -24,6 +24,8 @@ const envSchema = z.object({
   // Strapi (primary CMS)
   STRAPI_URL: z.string().url(),
   STRAPI_API_TOKEN: z.string().min(1),
+  SSR_REVALIDATE_SECS: z.coerce.number().int().positive(),
+  SNIPPET_CACHE_TTL_SECS: z.coerce.number().int().positive(),
 
   // Contact Form
   CONTACT_US_RECIPIENT: z.string().email(),

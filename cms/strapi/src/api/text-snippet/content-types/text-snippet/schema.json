@@ -4,7 +4,7 @@
   "info": {
     "singularName": "text-snippet",
     "pluralName": "text-snippets",
-    "displayName": "TextSnippet"
+    "displayName": "Snippet"
   },
   "options": {
     "draftAndPublish": true
@@ -13,10 +13,15 @@
   "attributes": {
     "Key": {
       "type": "string",
-      "required": true
+      "required": true,
+      "unique": true,
+      "regex": "^[A-Za-z0-9]+$"
     },
     "Value": {
       "type": "text"
+    },
+    "EmbedCode": {
+      "type": "string"
     },
     "InternalNotes": {
       "type": "text",
