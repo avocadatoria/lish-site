@@ -51,24 +51,14 @@
     "GeneratedDisplayName": {
       "type": "string"
     },
-    "Pages": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::page.page",
-      "mappedBy": "People"
-    },
-    "InternalNote": {
-      "type": "blocks",
-      "private": true
-    },
     "InternalNotes": {
       "type": "text",
       "private": true
     },
-    "Services": {
+    "PeopleLists": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::service.service",
+      "target": "api::people-list.people-list",
       "mappedBy": "People"
     }
   }

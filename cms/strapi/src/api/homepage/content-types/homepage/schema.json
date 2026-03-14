@@ -18,10 +18,10 @@
     "label": {
       "type": "string"
     },
-    "HomepageServices": {
+    "ServicesList": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::service.service"
+      "relation": "oneToOne",
+      "target": "api::services-list.services-list"
     }
   }
 }

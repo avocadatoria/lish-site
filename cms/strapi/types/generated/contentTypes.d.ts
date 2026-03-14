@@ -444,10 +444,6 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    HomepageServices: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::service.service'
-    >;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
     label: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -457,6 +453,10 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    ServicesList: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::services-list.services-list'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -558,38 +558,10 @@ export interface ApiMainNavigationMainNavigation
       'oneToMany',
       'api::site-section.site-section'
     >;
-    Services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiOurProvidersServicesOrderOurProvidersServicesOrder
-  extends Struct.SingleTypeSchema {
-  collectionName: 'our_providers_services_orders';
-  info: {
-    displayName: 'Providers Page Config';
-    pluralName: 'our-providers-services-orders';
-    singularName: 'our-providers-services-order';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
-    label: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::our-providers-services-order.our-providers-services-order'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    services: Schema.Attribute.Relation<'oneToMany', 'api::service.service'>;
+    ServicesList: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::services-list.services-list'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -632,10 +604,9 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::page.page'> &
       Schema.Attribute.Private;
     NavbarLabel: Schema.Attribute.String;
-    People: Schema.Attribute.Relation<'manyToMany', 'api::person.person'>;
     publishedAt: Schema.Attribute.DateTime;
-    Sections: Schema.Attribute.Relation<
-      'manyToMany',
+    Section: Schema.Attribute.Relation<
+      'manyToOne',
       'api::site-section.site-section'
     >;
     SEODescription: Schema.Attribute.String &
@@ -646,6 +617,38 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
     Slug: Schema.Attribute.UID<'title'>;
     Tagline: Schema.Attribute.String;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPeopleListPeopleList extends Struct.CollectionTypeSchema {
+  collectionName: 'people_lists';
+  info: {
+    displayName: 'PeopleList';
+    pluralName: 'people-lists';
+    singularName: 'people-list';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    Key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::people-list.people-list'
+    > &
+      Schema.Attribute.Private;
+    People: Schema.Attribute.Relation<'manyToMany', 'api::person.person'>;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -676,7 +679,6 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
     Email: Schema.Attribute.Email;
     FirstAndMiddleName: Schema.Attribute.String;
     GeneratedDisplayName: Schema.Attribute.String;
-    InternalNote: Schema.Attribute.Blocks & Schema.Attribute.Private;
     InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
     LastName: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -687,10 +689,12 @@ export interface ApiPersonPerson extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     NamePrefix: Schema.Attribute.String;
     NameSuffix: Schema.Attribute.String;
-    Pages: Schema.Attribute.Relation<'manyToMany', 'api::page.page'>;
+    PeopleLists: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::people-list.people-list'
+    >;
     Photo: Schema.Attribute.Media<'images' | 'files'>;
     publishedAt: Schema.Attribute.DateTime;
-    Services: Schema.Attribute.Relation<'manyToMany', 'api::service.service'>;
     Slug: Schema.Attribute.UID;
     Title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -726,7 +730,10 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     NavLabel: Schema.Attribute.String;
-    People: Schema.Attribute.Relation<'manyToMany', 'api::person.person'>;
+    PeopleList: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::people-list.people-list'
+    >;
     ProvidersPageLabel: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     ServicePageContent: Schema.Attribute.RichText &
@@ -737,10 +744,47 @@ export interface ApiServiceService extends Struct.CollectionTypeSchema {
         }
       >;
     ServicePageTagline: Schema.Attribute.String;
+    services_lists: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::services-list.services-list'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     URLSlug: Schema.Attribute.UID<'DefaultLabel'> & Schema.Attribute.Required;
+  };
+}
+
+export interface ApiServicesListServicesList
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'services_lists';
+  info: {
+    displayName: 'ServicesList';
+    pluralName: 'services-lists';
+    singularName: 'services-list';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    InternalNotes: Schema.Attribute.Text & Schema.Attribute.Private;
+    Key: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::services-list.services-list'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Services: Schema.Attribute.Relation<'manyToMany', 'api::service.service'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -767,7 +811,7 @@ export interface ApiSiteSectionSiteSection extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     NavbarLabel: Schema.Attribute.String & Schema.Attribute.Required;
-    Pages: Schema.Attribute.Relation<'manyToMany', 'api::page.page'>;
+    Pages: Schema.Attribute.Relation<'oneToMany', 'api::page.page'>;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1396,10 +1440,11 @@ declare module '@strapi/strapi' {
       'api::location.location': ApiLocationLocation;
       'api::locations-config.locations-config': ApiLocationsConfigLocationsConfig;
       'api::main-navigation.main-navigation': ApiMainNavigationMainNavigation;
-      'api::our-providers-services-order.our-providers-services-order': ApiOurProvidersServicesOrderOurProvidersServicesOrder;
       'api::page.page': ApiPagePage;
+      'api::people-list.people-list': ApiPeopleListPeopleList;
       'api::person.person': ApiPersonPerson;
       'api::service.service': ApiServiceService;
+      'api::services-list.services-list': ApiServicesListServicesList;
       'api::site-section.site-section': ApiSiteSectionSiteSection;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;
       'api::testimonials-page-config.testimonials-page-config': ApiTestimonialsPageConfigTestimonialsPageConfig;

@@ -34,12 +34,6 @@
     "ServicePageTagline": {
       "type": "string"
     },
-    "People": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::person.person",
-      "inversedBy": "Services"
-    },
     "CreatePage": {
       "type": "boolean",
       "required": true,
@@ -50,9 +44,20 @@
       "targetField": "DefaultLabel",
       "required": true
     },
+    "PeopleList": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::people-list.people-list"
+    },
     "InternalNotes": {
       "type": "text",
       "private": true
+    },
+    "services_lists": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::services-list.services-list",
+      "inversedBy": "Services"
     }
   }
 }

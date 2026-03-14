@@ -26,6 +26,7 @@ const envSchema = z.object({
   STRAPI_API_TOKEN: z.string().min(1),
   SSR_REVALIDATE_SECS: z.coerce.number().int().positive(),
   SNIPPET_CACHE_TTL_SECS: z.coerce.number().int().positive(),
+  PREVIEW_SECRET: z.string().min(1),
 
   // Contact Form
   CONTACT_US_RECIPIENT: z.string().email(),

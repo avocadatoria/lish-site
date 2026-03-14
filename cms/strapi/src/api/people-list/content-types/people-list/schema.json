@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "people_lists",
+  "info": {
+    "singularName": "people-list",
+    "pluralName": "people-lists",
+    "displayName": "PeopleList"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Key": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "People": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::person.person",
+      "inversedBy": "PeopleLists"
+    },
+    "InternalNotes": {
+      "type": "text",
+      "private": true
+    }
+  }
+}

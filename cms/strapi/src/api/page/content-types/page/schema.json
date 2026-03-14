@@ -64,16 +64,10 @@
       "required": true,
       "default": false
     },
-    "Sections": {
+    "Section": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::site-section.site-section",
-      "inversedBy": "Pages"
-    },
-    "People": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::person.person",
       "inversedBy": "Pages"
     },
     "InternalNotes": {

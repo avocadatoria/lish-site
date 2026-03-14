@@ -1,7 +1,6 @@
 import { getEntries } from './strapi.js';
 
-let snippetCache = null;
-let snippetCacheTime = 0;
+const snippetCaches = new Map(); // keyed by status ('published' | 'draft')
 const SNIPPET_CACHE_TTL = Number(process.env.SNIPPET_CACHE_TTL_SECS) * 1_000;
 
 const RAW_HTML_OPEN = `<div class="raw-html-embed">`;
@@ -76,13 +75,22 @@ function sanitize(str) {
 /**
  * Fetch all TextSnippets from Strapi and build a case-insensitive lookup map.
  */
-async function getSnippetMap() {
-  const now = Date.now();
-  if (snippetCache && now - snippetCacheTime < SNIPPET_CACHE_TTL) {
-    return snippetCache;
+async function getSnippetMap(status) {
+  const isDraft = status === `draft`;
+
+  // Never cache draft snippets — always fetch fresh
+  if (!isDraft) {
+    const cached = snippetCaches.get(`published`);
+    const now = Date.now();
+    if (cached && now - cached.time < SNIPPET_CACHE_TTL) {
+      return cached.map;
+    }
   }
 
-  const result = await getEntries(`text-snippets`, { 'pagination[pageSize]': `100` });
+  const params = { 'pagination[pageSize]': `100` };
+  if (isDraft) params.status = `draft`;
+
+  const result = await getEntries(`text-snippets`, params);
   const map = new Map();
   const items = result?.data || [];
   for (const item of items) {
@@ -91,8 +99,10 @@ async function getSnippetMap() {
     }
   }
 
-  snippetCache = map;
-  snippetCacheTime = now;
+  if (!isDraft) {
+    snippetCaches.set(`published`, { map, time: Date.now() });
+  }
+
   return map;
 }
 
@@ -148,7 +158,7 @@ async function processValue(val, snippetMap) {
 /**
  * Sanitize HTML and replace snippet tokens in all string values of a Strapi response.
  */
-export async function processStrapiResponse(data) {
-  const snippetMap = await getSnippetMap();
+export async function processStrapiResponse(data, { status } = {}) {
+  const snippetMap = await getSnippetMap(status);
   return processValue(data, snippetMap);
 }

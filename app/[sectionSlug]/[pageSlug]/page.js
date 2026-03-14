@@ -1,11 +1,15 @@
 import { notFound } from 'next/navigation';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { getSectionBySlug, getPageBySlug, getPageWithPeople, getProvidersPageServices, getServiceBySlug, getTestimonialsPageConfig } from '../../../lib/server-api.js';
+import { getSectionBySlug, getPageBySlug, getPeopleListByKey, getProvidersPageServices, getServiceBySlug, getTestimonialsPageConfig } from '../../../lib/server-api.js';
+import { verifyPreviewToken } from '../../../lib/preview.js';
 
 import { BoardMemberCard, ExecLeaderCard } from '../../../components/common/PersonCard.js';
 
-const PEOPLE_PAGES = new Set([`executive-leadership`, `board-of-directors`]);
+const PEOPLE_LIST_KEYS = {
+  'executive-leadership': `ExecutiveTeam`,
+  'board-of-directors': `BoardOfDirectors`,
+};
 
 export async function generateMetadata({ params }) {
   const { sectionSlug, pageSlug } = await params;
@@ -37,17 +41,21 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function SectionSubPage({ params }) {
+export default async function SectionSubPage({ params, searchParams }) {
   const { sectionSlug, pageSlug } = await params;
+  const query = await searchParams;
+  const pathname = `/${sectionSlug}/${pageSlug}`;
+  const draft = query.status === `draft` && verifyPreviewToken(pathname, query.preview_token);
+  const fetchOpts = draft ? { draft: true } : {};
 
   const isServicePage = sectionSlug === `services`;
   const isProviders = pageSlug === `our-providers`;
   const isTestimonials = pageSlug === `testimonials`;
-  const hasPeople = PEOPLE_PAGES.has(pageSlug);
+  const peopleListKey = PEOPLE_LIST_KEYS[pageSlug] || null;
 
   // ── Service detail page (/services/allergy, etc.) ──
   if (isServicePage) {
-    const service = await getServiceBySlug(pageSlug);
+    const service = await getServiceBySlug(pageSlug, fetchOpts);
     if (!service || !service.CreatePage) notFound();
 
     const serviceContentHtml = service.ServicePageContent || null;
@@ -70,16 +78,17 @@ export default async function SectionSubPage({ params }) {
   }
 
   // ── Regular section subpages ──
-  const [section, page, services, testimonialsConfig] = await Promise.all([
-    getSectionBySlug(sectionSlug),
-    hasPeople ? getPageWithPeople(pageSlug) : getPageBySlug(pageSlug),
-    isProviders ? getProvidersPageServices() : null,
-    isTestimonials ? getTestimonialsPageConfig() : null,
+  const [section, page, services, testimonialsConfig, peopleList] = await Promise.all([
+    getSectionBySlug(sectionSlug, fetchOpts),
+    getPageBySlug(pageSlug, fetchOpts),
+    isProviders ? getProvidersPageServices(fetchOpts) : null,
+    isTestimonials ? getTestimonialsPageConfig(fetchOpts) : null,
+    peopleListKey ? getPeopleListByKey(peopleListKey, fetchOpts) : null,
   ]);
 
   if (!section || !page) notFound();
 
-  const people = page.People || [];
+  const people = peopleList?.People || [];
   const isBoard = pageSlug === `board-of-directors`;
   const providerServices = services || [];
   const testimonials = testimonialsConfig?.testimonials || [];
@@ -104,7 +113,7 @@ export default async function SectionSubPage({ params }) {
       )}
 
       {/* Executive Leadership / Board of Directors */}
-      {hasPeople && people.length > 0 && (
+      {peopleListKey && people.length > 0 && (
         <Grid container spacing={3} sx={{ mt: 2 }}>
           {people.map((person) => (
             <Grid key={person.documentId} size={{ xs: 12, sm: 6, md: 4 }}>

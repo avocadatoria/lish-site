@@ -7,7 +7,7 @@ export default async function strapiRoutes(fastify) {
   fastify.get(`/api/strapi/:pluralApiId`, async (request) => {
     const { pluralApiId } = request.params;
     const result = await strapiService.getEntries(pluralApiId, request.query);
-    return processStrapiResponse(result);
+    return processStrapiResponse(result, { status: request.query.status });
   });
 
   // ── GET /api/strapi/slug/:pluralApiId/:slug ──────────
@@ -15,7 +15,7 @@ export default async function strapiRoutes(fastify) {
   fastify.get(`/api/strapi/slug/:pluralApiId/:slug`, async (request) => {
     const { pluralApiId, slug } = request.params;
     const result = await strapiService.getEntryBySlug(pluralApiId, slug, request.query);
-    return processStrapiResponse(result);
+    return processStrapiResponse(result, { status: request.query.status });
   });
 
   // ── GET /api/strapi/single/:singularApiId ────────────
@@ -23,7 +23,7 @@ export default async function strapiRoutes(fastify) {
   fastify.get(`/api/strapi/single/:singularApiId`, async (request) => {
     const { singularApiId } = request.params;
     const result = await strapiService.getSingleType(singularApiId, request.query);
-    return processStrapiResponse(result);
+    return processStrapiResponse(result, { status: request.query.status });
   });
 
   // ── GET /api/strapi/:pluralApiId/:documentId ─────────
@@ -31,6 +31,6 @@ export default async function strapiRoutes(fastify) {
   fastify.get(`/api/strapi/:pluralApiId/:documentId`, async (request) => {
     const { pluralApiId, documentId } = request.params;
     const result = await strapiService.getEntry(pluralApiId, documentId, request.query);
-    return processStrapiResponse(result);
+    return processStrapiResponse(result, { status: request.query.status });
   });
 }

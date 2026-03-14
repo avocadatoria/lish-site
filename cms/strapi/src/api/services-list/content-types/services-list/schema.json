@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "services_lists",
+  "info": {
+    "singularName": "services-list",
+    "pluralName": "services-lists",
+    "displayName": "ServicesList"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Key": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "Services": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::service.service",
+      "mappedBy": "services_lists"
+    },
+    "InternalNotes": {
+      "type": "text",
+      "private": true
+    }
+  }
+}

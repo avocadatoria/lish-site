@@ -22,9 +22,9 @@
     },
     "Pages": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
       "target": "api::page.page",
-      "mappedBy": "Sections"
+      "mappedBy": "Section"
     },
     "URLSlug": {
       "type": "uid",

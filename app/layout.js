@@ -26,12 +26,16 @@ async function getNavSections() {
 
 async function getNavServices() {
   try {
-    const res = await fetch(`${process.env.API_URL}/api/strapi/single/main-navigation?populate=Services`, {
+    const params = new URLSearchParams({
+      'filters[Key][$eq]': `ServicesNavMenu`,
+      'populate': `Services`,
+    });
+    const res = await fetch(`${process.env.API_URL}/api/strapi/services-lists?${params}`, {
       next: { revalidate: Number(process.env.SSR_REVALIDATE_SECS) },
     });
     if (!res.ok) return [];
     const json = await res.json();
-    return json.data?.Services || [];
+    return json.data?.[0]?.Services || [];
   } catch {
     return [];
   }
