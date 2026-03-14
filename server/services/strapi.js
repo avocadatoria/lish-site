@@ -10,6 +10,16 @@ const headers = {
   'Content-Type': `application/json`,
 };
 
+const SAFE_ID_PATTERN = /^[a-z0-9-]+$/;
+
+function validateApiId(id) {
+  if (!SAFE_ID_PATTERN.test(id)) {
+    const err = new Error(`Invalid API identifier: ${id}`);
+    err.statusCode = 400;
+    throw err;
+  }
+}
+
 /**
  * Generic fetch helper for Strapi REST API.
  */
@@ -33,6 +43,7 @@ async function strapiFetch(url, options = {}) {
  * @returns {Promise<{ data: object[], meta: object }>}
  */
 export async function getEntries(pluralApiId, params = {}) {
+  validateApiId(pluralApiId);
   const url = new URL(`/api/${pluralApiId}`, STRAPI_URL);
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null) {
@@ -53,6 +64,8 @@ export async function getEntries(pluralApiId, params = {}) {
  * @returns {Promise<{ data: object, meta: object }>}
  */
 export async function getEntry(pluralApiId, documentId, params = {}) {
+  validateApiId(pluralApiId);
+  validateApiId(documentId);
   const url = new URL(`/api/${pluralApiId}/${documentId}`, STRAPI_URL);
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null) {
@@ -72,6 +85,7 @@ export async function getEntry(pluralApiId, documentId, params = {}) {
  * @returns {Promise<object>}
  */
 export async function getEntryBySlug(pluralApiId, slug, params = {}) {
+  validateApiId(pluralApiId);
   const result = await getEntries(pluralApiId, {
     'filters[slug][$eq]': slug,
     ...params,
@@ -94,6 +108,7 @@ export async function getEntryBySlug(pluralApiId, slug, params = {}) {
  * @returns {Promise<{ data: object, meta: object }>}
  */
 export async function createEntry(pluralApiId, data) {
+  validateApiId(pluralApiId);
   const url = new URL(`/api/${pluralApiId}`, STRAPI_URL);
 
   log.debug({ pluralApiId, data }, `Creating Strapi entry`);
@@ -111,6 +126,7 @@ export async function createEntry(pluralApiId, data) {
  * @returns {Promise<{ data: object, meta: object }>}
  */
 export async function getSingleType(singularApiId, params = {}) {
+  validateApiId(singularApiId);
   const url = new URL(`/api/${singularApiId}`, STRAPI_URL);
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null) {

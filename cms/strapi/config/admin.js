@@ -26,17 +26,26 @@ module.exports = ({ env }) => ({
         const clientUrl = env('CLIENT_URL');
         const previewSecret = env('PREVIEW_SECRET');
 
-        // Only Pages support preview for now
-        if (uid !== 'api::page.page') return null;
+        let pathname;
 
-        const document = await strapi.documents(uid).findOne({
-          documentId,
-          populate: { Section: { fields: ['URLSlug'] } },
-        });
-
-        if (!document || !document.Section?.URLSlug || !document.Slug) return null;
-
-        const pathname = `/${document.Section.URLSlug}/${document.Slug}`;
+        if (uid === 'api::page.page') {
+          const document = await strapi.documents(uid).findOne({
+            documentId,
+            populate: { Section: { fields: ['URLSlug'] } },
+          });
+          if (!document || !document.Section?.URLSlug) return null;
+          pathname = document.IsSectionRoot
+            ? `/${document.Section.URLSlug}`
+            : `/${document.Section.URLSlug}/${document.Slug}`;
+        } else if (uid === 'api::homepage.homepage' || uid === 'api::main-navigation.main-navigation') {
+          pathname = `/`;
+        } else if (uid === 'api::service.service') {
+          const document = await strapi.documents(uid).findOne({ documentId });
+          if (!document || !document.URLSlug) return null;
+          pathname = `/services/${document.URLSlug}`;
+        } else {
+          return null;
+        }
         const params = new URLSearchParams({ url: pathname, secret: previewSecret, status });
         return `${clientUrl}/preview?${params}`;
       },

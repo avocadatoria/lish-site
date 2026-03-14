@@ -122,11 +122,11 @@ async function substituteTokens(str, snippetMap) {
     const value = snippetMap.get(key);
 
     if (value != null) {
-      result = result.replace(fullMatch, value);
+      result = result.replace(fullMatch, () => value);
     } else {
       result = result.replace(
         fullMatch,
-        `<strong style="color: #cc0000">Snippet Key &quot;${key}&quot; not found</strong>`,
+        () => `<strong style="color: #cc0000">Snippet Key &quot;${key}&quot; not found</strong>`,
       );
     }
   }

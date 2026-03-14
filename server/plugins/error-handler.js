@@ -1,9 +1,17 @@
 import fp from 'fastify-plugin';
 
+const STATUS_MESSAGES = {
+  400: `Bad request`,
+  401: `Unauthorized`,
+  403: `Forbidden`,
+  404: `Not found`,
+  409: `Conflict`,
+  422: `Unprocessable entity`,
+  429: `Too many requests`,
+};
+
 async function errorHandlerPlugin(fastify) {
   fastify.setErrorHandler((error, request, reply) => {
-    const isProd = process.env.NODE_ENV === `production`;
-
     // ── Zod validation errors ───────────────────────
     if (error.name === `ZodError` || error.issues) {
       return reply.code(400).send({
@@ -18,9 +26,10 @@ async function errorHandlerPlugin(fastify) {
 
     // ── Errors with explicit status codes ───────────
     if (error.statusCode) {
+      request.log.error(error);
       return reply.code(error.statusCode).send({
         error: error.code || `ERROR`,
-        message: error.message,
+        message: STATUS_MESSAGES[error.statusCode] || `Request failed`,
       });
     }
 
@@ -29,7 +38,7 @@ async function errorHandlerPlugin(fastify) {
 
     return reply.code(500).send({
       error: `INTERNAL_SERVER_ERROR`,
-      message: isProd ? `An unexpected error occurred` : error.message,
+      message: `An unexpected error occurred`,
     });
   });
 }

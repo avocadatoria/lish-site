@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import Typography from '@mui/material/Typography';
 import { getServicesListByKey, getLocationsConfig } from '../lib/server-api.js';
+import { verifyPreviewToken } from '../lib/preview.js';
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }) {
+  const query = await searchParams;
+  const draft = query.status === `draft` && verifyPreviewToken(`/`, query.preview_token);
+  const fetchOpts = draft ? { draft: true } : {};
+
   const [services, locationsConfig] = await Promise.all([
-    getServicesListByKey(`Homepage`),
-    getLocationsConfig(),
+    getServicesListByKey(`Homepage`, fetchOpts),
+    getLocationsConfig(fetchOpts),
   ]);
 
   const locations = locationsConfig?.Locations || [];

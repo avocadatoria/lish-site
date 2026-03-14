@@ -2,10 +2,9 @@ import fp from 'fastify-plugin';
 import cors from '@fastify/cors';
 
 async function corsPlugin(fastify) {
-  const isDev = process.env.NODE_ENV !== `production`;
-
+  const corsOrigin = process.env.CORS_ORIGIN;
   await fastify.register(cors, {
-    origin: isDev ? true : process.env.APP_URL,
+    origin: corsOrigin === `*` ? true : corsOrigin.split(`,`).map((o) => o.trim()),
     credentials: true,
   });
 }

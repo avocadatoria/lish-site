@@ -13,7 +13,7 @@ module.exports = [
     },
   },
   'strapi::cors',
-  'strapi::poweredBy',
+  { name: 'strapi::poweredBy', config: { poweredBy: '' } },
   'strapi::query',
   'strapi::body',
   'strapi::session',

@@ -15,8 +15,8 @@ export async function GET(request) {
     return new Response(`Invalid token`, { status: 401 });
   }
 
-  if (!url) {
-    return new Response(`Missing url parameter`, { status: 400 });
+  if (!url || !url.startsWith(`/`) || url.startsWith(`//`)) {
+    return new Response(`Invalid url parameter`, { status: 400 });
   }
 
   if (status === `draft`) {

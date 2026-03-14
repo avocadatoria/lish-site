@@ -27,6 +27,10 @@ const envSchema = z.object({
   SSR_REVALIDATE_SECS: z.coerce.number().int().positive(),
   SNIPPET_CACHE_TTL_SECS: z.coerce.number().int().positive(),
   PREVIEW_SECRET: z.string().min(1),
+  RATE_LIMIT_MAX: z.coerce.number().int().positive(),
+  RATE_LIMIT_WINDOW_SECS: z.coerce.number().int().positive(),
+  CORS_ORIGIN: z.string().min(1),
+  CMS_URL: z.string().url(),
 
   // Contact Form
   CONTACT_US_RECIPIENT: z.string().email(),

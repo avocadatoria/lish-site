@@ -73,7 +73,7 @@ export function ExecLeaderCard({ person }) {
 
   const nameDisplay = suffix ? `${nameLine}, ${suffix}` : nameLine;
 
-  const bioHtml = person.sanitizedBio || `<p>Bio coming soon.</p>`;
+  const bioHtml = person.Bio || `<p>Bio coming soon.</p>`;
 
   return (
     <Card sx={{ height: `100%` }}>

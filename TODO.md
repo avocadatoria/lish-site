@@ -1,28 +1,23 @@
 # TODO
 
+## Security
+- [ ] Add Content Security Policy headers (defense-in-depth for dangerouslySetInnerHTML)
+- [ ] Evaluate risk of raw-html-embed blocks bypassing all sanitization — currently any Strapi admin can inject arbitrary JS via CKEditor raw HTML embed
+- [ ] Audit Strapi API token scope — ensure it's read-only if write access isn't needed from Fastify (except for inquiries)
+- [ ] Add CSRF protection to POST /api/inquiries
+
+## CloudFront Headers (Production)
+- [ ] `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload` (HSTS)
+- [ ] `Content-Security-Policy` (see Security section above)
+- [ ] `Permissions-Policy` (disable camera, microphone, geolocation, etc. — site doesn't use them)
+
 ## Production Hardening
-- [ ] Add rate limiting (`@fastify/rate-limit`) to auth and public endpoints
-- [ ] Add security headers (`@fastify/helmet`, CSP headers)
-- [ ] Configure CORS origins for production domain
+- [ ] Configure CORS_ORIGIN for production domain
+- [ ] Set STRAPI_DB_SSL=true in production
 - [ ] Set up CloudWatch log groups for Pino JSON output
 - [ ] Add health check monitoring/alerting
 - [ ] Configure SSL certificate on load balancer
-- [ ] Set up FRP for staging/dev environments
-
-## Features to Add Per Client
-- [ ] Termly.io GDPR/cookie consent integration
-- [ ] i18n support (next-intl) if needed
-- [ ] Dark mode theme toggle in ThemeRegistry
-- [ ] Email templates (HTML) for transactional emails
-- [ ] Stripe webhook event replay/recovery
-- [ ] File upload progress UI with WrappedMUIFileUpload + S3
-- [ ] Push notifications (web push API)
-- [ ] Two-factor authentication via Auth0
-- [ ] Social login providers (Google, GitHub, etc.)
 
 ## Code Quality
 - [ ] Add integration tests for all API routes (supertest)
-- [ ] Add E2E tests with Puppeteer for critical flows
 - [ ] Set up CI/CD pipeline (GitHub Actions)
-- [ ] Add pre-commit hooks (lint-staged + husky)
-- [ ] Code coverage targets (>80%)

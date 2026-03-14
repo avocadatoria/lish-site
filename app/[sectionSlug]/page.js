@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Typography from '@mui/material/Typography';
 import { getSectionBySlug, getServicesListByKey } from '../../lib/server-api.js';
+import { verifyPreviewToken } from '../../lib/preview.js';
 
 export async function generateMetadata({ params }) {
   const { sectionSlug } = await params;
@@ -20,14 +21,19 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function SectionHomePage({ params }) {
+export default async function SectionHomePage({ params, searchParams }) {
   const { sectionSlug } = await params;
+  const query = await searchParams;
+  const pathname = `/${sectionSlug}`;
+  const draft = query.status === `draft` && verifyPreviewToken(pathname, query.preview_token);
+  const fetchOpts = draft ? { draft: true } : {};
+
   const isServices = sectionSlug === `services`;
   const isContact = sectionSlug === `contact-us`;
 
   const [section, navServices] = await Promise.all([
-    getSectionBySlug(sectionSlug),
-    isServices ? getServicesListByKey(`ServicesNavMenu`) : null,
+    getSectionBySlug(sectionSlug, fetchOpts),
+    isServices ? getServicesListByKey(`ServicesNavMenu`, fetchOpts) : null,
   ]);
 
   if (!section) notFound();
