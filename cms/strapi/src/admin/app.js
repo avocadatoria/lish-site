@@ -1,4 +1,5 @@
 import { setPluginConfig, defaultHtmlPreset } from '@_sh/strapi-plugin-ckeditor';
+import strapiThemeDefaults from './strapi-theme-defaults';
 
 // ── Toolbar tweaks ──────────────────────────────────────────
 // Hardcoded toolbar — explicit order, no guessing
@@ -77,7 +78,10 @@ defaultHtmlPreset.editorConfig.clipboard = {
   handleImages: false,
 };
 
+const theme = JSON.parse(JSON.stringify(strapiThemeDefaults));
+
 const config = {
+  theme,
   tutorials: false,
   notifications: { releases: false },
   locales: [],

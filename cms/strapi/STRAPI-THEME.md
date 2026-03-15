@@ -15,138 +15,87 @@ const config = {
 };
 ```
 
+**Merge behavior:** Objects are deep-merged (you only specify what you're changing). Arrays replace entirely (provide all values).
+
 For custom CSS beyond tokens, use `src/admin/strapi.scss` (imported via `bootstrap()` in `app.js`).
 
 ---
 
-## Colors — Light Theme
+## Colors
 
-### Primary
-| Token | Default | Usage |
-|-------|---------|-------|
-| `primary100` | `#f0f0ff` | Light primary backgrounds |
-| `primary200` | `#d9d8ff` | Primary hover/active backgrounds |
-| `primary500` | `#7b79ff` | Secondary primary elements |
-| `primary600` | `#4945ff` | Main brand color (buttons, links, active states) |
-| `primary700` | `#271fe0` | Dark primary (pressed states) |
-
-### Secondary
-| Token | Default | Usage |
-|-------|---------|-------|
-| `secondary100` | `#eaf5ff` | Light secondary backgrounds |
-| `secondary200` | `#b8e1ff` | Secondary hover/active |
-| `secondary500` | `#66b7f1` | Secondary elements |
-| `secondary600` | `#0c75af` | Main secondary color |
-| `secondary700` | `#006096` | Dark secondary |
-
-### Danger
-| Token | Default | Usage |
-|-------|---------|-------|
-| `danger100` | `#fcecea` | Error backgrounds |
-| `danger200` | `#f5c0b8` | Error hover |
-| `danger500` | `#ee5e52` | Error accents |
-| `danger600` | `#d02b20` | Error text/icons |
-| `danger700` | `#b72b1a` | Dark error |
-
-### Success
-| Token | Default | Usage |
-|-------|---------|-------|
-| `success100` | `#eafbe7` | Success backgrounds |
-| `success200` | `#c6f0c2` | Success hover |
-| `success500` | `#5cb176` | Success accents |
-| `success600` | `#328048` | Success text/icons |
-| `success700` | `#2f6846` | Dark success |
-
-### Warning
-| Token | Default | Usage |
-|-------|---------|-------|
-| `warning100` | `#fdf4dc` | Warning backgrounds |
-| `warning200` | `#fae7b9` | Warning hover |
-| `warning500` | `#f29d41` | Warning accents |
-| `warning600` | `#d9822f` | Warning text/icons |
-| `warning700` | `#be5d01` | Dark warning |
-
-### Alternative
-| Token | Default | Usage |
-|-------|---------|-------|
-| `alternative100` | `#f6ecfc` | Alternative backgrounds |
-| `alternative200` | `#e0c1f4` | Alternative hover |
-| `alternative500` | `#ac73e6` | Alternative accents |
-| `alternative600` | `#9736e8` | Main alternative |
-| `alternative700` | `#8312d1` | Dark alternative |
-
-### Neutral
-| Token | Default | Usage |
-|-------|---------|-------|
-| `neutral0` | `#ffffff` | White / page background |
-| `neutral100` | `#f6f6f9` | Light gray backgrounds |
-| `neutral150` | `#eaeaef` | Borders, dividers |
-| `neutral200` | `#dcdce4` | Heavier borders |
-| `neutral300` | `#c0c0cf` | Disabled borders |
-| `neutral400` | `#a5a5ba` | Placeholder text |
-| `neutral500` | `#8e8ea9` | Secondary text |
-| `neutral600` | `#666687` | Body text |
-| `neutral700` | `#4a4a6a` | Headings |
-| `neutral800` | `#32324d` | Dark text / sidebar |
-| `neutral900` | `#212134` | Darkest text |
-| `neutral1000` | `#181826` | Near-black |
-
-### Button
-| Token | Default | Usage |
-|-------|---------|-------|
-| `buttonNeutral0` | `#ffffff` | Button text on primary |
-| `buttonPrimary500` | `#7b79ff` | Button secondary state |
-| `buttonPrimary600` | `#4945ff` | Default button background |
-
----
-
-## Colors — Dark Theme
-
-Same token names, inverted values:
-
-| Token | Value | | Token | Value |
-|-------|-------|-|-------|-------|
-| `primary100` | `#181826` | | `neutral0` | `#212134` |
-| `primary200` | `#4a4a6a` | | `neutral100` | `#181826` |
-| `primary500` | `#4945ff` | | `neutral150` | `#32324d` |
-| `primary600` | `#7b79ff` | | `neutral200` | `#4a4a6a` |
-| `primary700` | `#7b79ff` | | `neutral300` | `#666687` |
-| `secondary100` | `#181826` | | `neutral400` | `#a5a5ba` |
-| `secondary200` | `#4a4a6a` | | `neutral500` | `#c0c0cf` |
-| `secondary500` | `#66b7f1` | | `neutral600` | `#a5a5ba` |
-| `secondary600` | `#66b7f1` | | `neutral700` | `#eaeaef` |
-| `secondary700` | `#b8e1ff` | | `neutral800` | `#ffffff` |
-| `danger100` | `#181826` | | `neutral900` | `#ffffff` |
-| `danger200` | `#4a4a6a` | | `neutral1000` | `#ffffff` |
-| `danger500` | `#ee5e52` | | `alternative100` | `#181826` |
-| `danger600` | `#ee5e52` | | `alternative200` | `#4a4a6a` |
-| `danger700` | `#ee5e52` | | `alternative500` | `#ac73e6` |
-| `success100` | `#181826` | | `alternative600` | `#ac73e6` |
-| `success200` | `#4a4a6a` | | `alternative700` | `#e0c1f4` |
-| `success500` | `#5cb176` | | `warning100` | `#181826` |
-| `success600` | `#5cb176` | | `warning200` | `#4a4a6a` |
-| `success700` | `#c6f0c2` | | `warning500` | `#f29d41` |
-| `buttonNeutral0` | `#ffffff` | | `warning600` | `#f29d41` |
-| `buttonPrimary500` | `#7b79ff` | | `warning700` | `#fae7b9` |
-| `buttonPrimary600` | `#4945ff` | | | |
+| Token | Light | Dark |
+|-------|-------|------|
+| **Primary** | | |
+| `primary100` | `#f0f0ff` | `#181826` |
+| `primary200` | `#d9d8ff` | `#4a4a6a` |
+| `primary500` | `#7b79ff` | `#4945ff` |
+| `primary600` | `#4945ff` | `#7b79ff` |
+| `primary700` | `#271fe0` | `#7b79ff` |
+| **Secondary** | | |
+| `secondary100` | `#eaf5ff` | `#181826` |
+| `secondary200` | `#b8e1ff` | `#4a4a6a` |
+| `secondary500` | `#66b7f1` | `#66b7f1` |
+| `secondary600` | `#0c75af` | `#66b7f1` |
+| `secondary700` | `#006096` | `#b8e1ff` |
+| **Danger** | | |
+| `danger100` | `#fcecea` | `#181826` |
+| `danger200` | `#f5c0b8` | `#4a4a6a` |
+| `danger500` | `#ee5e52` | `#ee5e52` |
+| `danger600` | `#d02b20` | `#ee5e52` |
+| `danger700` | `#b72b1a` | `#ee5e52` |
+| **Success** | | |
+| `success100` | `#eafbe7` | `#181826` |
+| `success200` | `#c6f0c2` | `#4a4a6a` |
+| `success500` | `#5cb176` | `#5cb176` |
+| `success600` | `#328048` | `#5cb176` |
+| `success700` | `#2f6846` | `#c6f0c2` |
+| **Warning** | | |
+| `warning100` | `#fdf4dc` | `#181826` |
+| `warning200` | `#fae7b9` | `#4a4a6a` |
+| `warning500` | `#f29d41` | `#f29d41` |
+| `warning600` | `#d9822f` | `#f29d41` |
+| `warning700` | `#be5d01` | `#fae7b9` |
+| **Alternative** | | |
+| `alternative100` | `#f6ecfc` | `#181826` |
+| `alternative200` | `#e0c1f4` | `#4a4a6a` |
+| `alternative500` | `#ac73e6` | `#ac73e6` |
+| `alternative600` | `#9736e8` | `#ac73e6` |
+| `alternative700` | `#8312d1` | `#e0c1f4` |
+| **Neutral** | | |
+| `neutral0` | `#ffffff` | `#212134` |
+| `neutral100` | `#f6f6f9` | `#181826` |
+| `neutral150` | `#eaeaef` | `#32324d` |
+| `neutral200` | `#dcdce4` | `#4a4a6a` |
+| `neutral300` | `#c0c0cf` | `#666687` |
+| `neutral400` | `#a5a5ba` | `#a5a5ba` |
+| `neutral500` | `#8e8ea9` | `#c0c0cf` |
+| `neutral600` | `#666687` | `#a5a5ba` |
+| `neutral700` | `#4a4a6a` | `#eaeaef` |
+| `neutral800` | `#32324d` | `#ffffff` |
+| `neutral900` | `#212134` | `#ffffff` |
+| `neutral1000` | `#181826` | `#ffffff` |
+| **Button** | | |
+| `buttonNeutral0` | `#ffffff` | `#ffffff` |
+| `buttonPrimary500` | `#7b79ff` | `#7b79ff` |
+| `buttonPrimary600` | `#4945ff` | `#4945ff` |
 
 ---
 
 ## Shadows
 
-| Token | Default | Usage |
-|-------|---------|-------|
-| `filterShadow` | `0px 1px 4px rgba(33, 33, 52, 0.1)` | Card/filter shadows |
-| `focus` | `inset 2px 0px 0px rgb(39, 31, 224), inset 0px 2px 0px rgb(39, 31, 224), inset -2px 0px 0px rgb(39, 31, 224), inset 0px -2px 0px rgb(39, 31, 224)` | Focus ring |
-| `focusShadow` | `0px 0px 6px rgba(76, 191, 255, 0.75)` | Outer focus glow |
-| `popupShadow` | `0px 2px 15px rgba(33, 33, 52, 0.1)` | Dropdown/popup shadows |
-| `tableShadow` | `0px 1px 4px rgba(33, 33, 52, 0.1)` | Table shadows |
+| Token | Light | Dark |
+|-------|-------|------|
+| `filterShadow` | `0px 1px 4px rgba(33, 33, 52, 0.1)` | `1px 1px 10px rgba(3, 3, 5, 0.35)` |
+| `focus` | `inset 2px 0px 0px rgb(39, 31, 224), inset 0px 2px 0px rgb(39, 31, 224), inset -2px 0px 0px rgb(39, 31, 224), inset 0px -2px 0px rgb(39, 31, 224)` | same |
+| `focusShadow` | `0px 0px 6px rgba(76, 191, 255, 0.75)` | same |
+| `popupShadow` | `0px 2px 15px rgba(33, 33, 52, 0.1)` | `1px 1px 10px rgba(3, 3, 5, 0.35)` |
+| `tableShadow` | `0px 1px 4px rgba(33, 33, 52, 0.1)` | `1px 1px 10px rgba(3, 3, 5, 0.2)` |
 
 ---
 
 ## Spacing
 
-12-step scale, accessed as `spaces[0]` through `spaces[11]`:
+12-step scale (shared by light and dark). Arrays replace entirely — provide all 12 values.
 
 | Index | Default |
 |-------|---------|
@@ -167,8 +116,9 @@ Same token names, inverted values:
 
 ## Typography
 
-### Font Sizes
-8-step scale:
+Shared by light and dark. Arrays replace entirely.
+
+### Font Sizes (8-step)
 
 | Index | Default |
 |-------|---------|
@@ -184,18 +134,30 @@ Same token names, inverted values:
 Note: Strapi 5 uses `62.5%` base font-size, so `1rem = 10px`.
 
 ### Font Weights
+
 | Token | Default |
 |-------|---------|
 | `regular` | `400` |
 | `semiBold` | `500` |
 | `bold` | `600` |
 
-### Line Heights
-7 values: `1.14, 1.22, 1.25, 1.33, 1.43, 1.45, 1.5`
+### Line Heights (7 values)
+
+| Index | Default |
+|-------|---------|
+| 0 | `1.14` |
+| 1 | `1.22` |
+| 2 | `1.25` |
+| 3 | `1.33` |
+| 4 | `1.43` |
+| 5 | `1.45` |
+| 6 | `1.5` |
 
 ---
 
 ## Border Radius
+
+Shared by light and dark.
 
 | Token | Default |
 |-------|---------|
@@ -204,6 +166,8 @@ Note: Strapi 5 uses `62.5%` base font-size, so `1rem = 10px`.
 ---
 
 ## Breakpoints
+
+Shared by light and dark.
 
 | Token | Default |
 |-------|---------|
@@ -215,6 +179,8 @@ Note: Strapi 5 uses `62.5%` base font-size, so `1rem = 10px`.
 ---
 
 ## Z-Index
+
+Shared by light and dark.
 
 | Token | Default |
 |-------|---------|
@@ -230,13 +196,17 @@ Note: Strapi 5 uses `62.5%` base font-size, so `1rem = 10px`.
 
 ## Sizes
 
+Shared by light and dark.
+
 ### Accordions
+
 | Token | Default |
 |-------|---------|
 | `S` | `4.8rem` |
 | `M` | `8.8rem` |
 
 ### Buttons (responsive)
+
 | Token | Initial | Medium breakpoint |
 |-------|---------|-------------------|
 | `S` | `4rem` | `3.2rem` |
@@ -248,8 +218,10 @@ Note: Strapi 5 uses `62.5%` base font-size, so `1rem = 10px`.
 ## Sources
 
 - [Admin panel customization docs](https://docs.strapi.io/cms/admin-panel-customization)
-- [Light colors source](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/lightTheme/light-colors.ts)
-- [Dark colors source](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/darkTheme/dark-colors.ts)
-- [Common theme source](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/common-theme.ts)
-- [Shadows source](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/lightTheme/light-shadows.ts)
-- [Sizes source](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/sizes.ts)
+- [Light colors](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/lightTheme/light-colors.ts)
+- [Dark colors](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/darkTheme/dark-colors.ts)
+- [Light shadows](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/lightTheme/light-shadows.ts)
+- [Dark shadows](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/darkTheme/dark-shadows.ts)
+- [Common theme](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/common-theme.ts)
+- [Sizes](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/sizes.ts)
+- [extendTheme (merge behavior)](https://github.com/strapi/design-system/blob/main/packages/design-system/src/themes/extendTheme.ts)
