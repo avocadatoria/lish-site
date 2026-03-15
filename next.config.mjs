@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ['lish-dev-www.avocadatoria.com'],
+  allowedDevOrigins: [new URL(process.env.APP_URL).hostname],
   poweredByHeader: false,
   images: {
     unoptimized: true,

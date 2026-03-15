@@ -41,6 +41,7 @@
     "@fastify/websocket": "11.2.0",
     "@mui/icons-material": "7.3.8",
     "@mui/material": "7.3.8",
+    "@strapi/provider-email-amazon-ses": "5.39.0",
     "@tiptap/react": "3.20.0",
     "@tiptap/starter-kit": "3.20.0",
     "concurrently": "9.2.1",

@@ -11,6 +11,9 @@
 - [ ] `Content-Security-Policy` (see Security section above)
 - [ ] `Permissions-Policy` (disable camera, microphone, geolocation, etc. — site doesn't use them)
 
+## Preview
+- [ ] Draft-aware nav: layout.js can't read searchParams, so nav always shows published state. Need a way to pass draft status to the layout's nav fetch during preview (move nav to page components, or client-side fetch, or middleware approach).
+
 ## Production Hardening
 - [ ] Configure CORS_ORIGIN for production domain
 - [ ] Set STRAPI_DB_SSL=true in production

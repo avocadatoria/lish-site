@@ -1,4 +1,4 @@
-module.exports = [
+module.exports = ({ env }) => [
   'strapi::logger',
   'strapi::errors',
   {
@@ -6,8 +6,8 @@ module.exports = [
     config: {
       contentSecurityPolicy: {
         directives: {
-          'img-src': ["'self'", 'data:', 'blob:', 'https://lish-dev-www.avocadatoria.com'],
-          'media-src': ["'self'", 'data:', 'blob:', 'https://lish-dev-www.avocadatoria.com'],
+          'img-src': ["'self'", 'data:', 'blob:', env('AWS_S3_UPLOAD_CDN_URL')],
+          'media-src': ["'self'", 'data:', 'blob:', env('AWS_S3_UPLOAD_CDN_URL')],
         },
       },
     },

@@ -78,6 +78,8 @@ defaultHtmlPreset.editorConfig.clipboard = {
 };
 
 const config = {
+  tutorials: false,
+  notifications: { releases: false },
   locales: [],
   translations: {
     en: {
@@ -91,5 +93,8 @@ export default {
   config,
   register() {
     setPluginConfig({ presets: [defaultHtmlPreset] });
+  },
+  bootstrap() {
+    import('./strapi.scss');
   },
 };

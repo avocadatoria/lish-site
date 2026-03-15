@@ -37,8 +37,10 @@ module.exports = ({ env }) => ({
           pathname = document.IsSectionRoot
             ? `/${document.Section.URLSlug}`
             : `/${document.Section.URLSlug}/${document.Slug}`;
-        } else if (uid === 'api::homepage.homepage' || uid === 'api::main-navigation.main-navigation') {
+        } else if (uid === 'api::homepage.homepage') {
           pathname = `/`;
+        } else if (uid === 'api::testimonials-page-config.testimonials-page-config' || uid === 'api::testimonial.testimonial') {
+          pathname = `/who-we-are/testimonials`;
         } else if (uid === 'api::service.service') {
           const document = await strapi.documents(uid).findOne({ documentId });
           if (!document || !document.URLSlug) return null;
